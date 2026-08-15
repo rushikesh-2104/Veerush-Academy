@@ -1,0 +1,134 @@
+<!-- Header -->
+
+<div class="flex items-center justify-between">
+
+  <!-- Left -->
+
+  <div class="flex items-center gap-4">
+
+    <div
+      class="flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-xl font-bold text-blue-600">
+
+      {{ student.fullName.charAt(0) }}
+
+    </div>
+
+    <div>
+
+      <h2 class="text-lg font-bold text-slate-800">
+
+        {{ student.fullName }}
+
+      </h2>
+
+      <p class="text-sm text-slate-500">
+
+        Class {{ student.standard }}
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Actions -->
+
+  <div class="flex items-center gap-2">
+
+    <!-- View -->
+
+    <button
+      (click)="openStudent(student); $event.stopPropagation()"
+      class="rounded-lg bg-slate-100 p-2 transition hover:bg-slate-200">
+
+      <i class="fa-solid fa-eye"></i>
+
+    </button>
+
+    <!-- Edit -->
+
+    <button
+      (click)="editStudent(student); $event.stopPropagation()"
+      class="rounded-lg bg-yellow-100 p-2 text-yellow-700 transition hover:bg-yellow-200">
+
+      <i class="fa-solid fa-pen"></i>
+
+    </button>
+
+    <!-- Delete -->
+
+    <button
+      (click)="deleteStudent(student._id); $event.stopPropagation()"
+      class="rounded-lg bg-red-100 p-2 text-red-700 transition hover:bg-red-200">
+
+      <i class="fa-solid fa-trash"></i>
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- Details -->
+
+<div class="mt-5 space-y-3 text-sm text-slate-600">
+
+  <div class="flex items-center gap-3">
+
+    <i class="fa-solid fa-book text-blue-600"></i>
+
+    {{ student.course || 'Not Assigned' }}
+
+  </div>
+
+  <div class="flex items-center gap-3">
+
+    <i class="fa-regular fa-clock text-blue-600"></i>
+
+    {{ student.batch || 'Not Assigned' }}
+
+  </div>
+
+  <div class="flex items-center gap-3">
+
+    <i class="fa-solid fa-school text-blue-600"></i>
+
+    {{ student.school || 'N/A' }}
+
+  </div>
+
+  <div class="flex items-center gap-3">
+
+    <i class="fa-solid fa-phone text-blue-600"></i>
+
+    {{ student.phone }}
+
+  </div>
+
+</div>
+
+<!-- Footer -->
+
+<div class="mt-6 flex items-center justify-between">
+
+  <span
+    class="rounded-full px-3 py-1 text-xs font-semibold"
+    [ngClass]="(student.monthlyFees ?? 0) > 0
+      ? 'bg-blue-100 text-blue-700'
+      : 'bg-slate-100 text-slate-600'">
+
+    ₹ {{ student.monthlyFees }}/month
+
+  </span>
+
+  <span
+    class="rounded-full px-3 py-1 text-xs font-semibold"
+    [ngClass]="student.isActive
+      ? 'bg-green-100 text-green-700'
+      : 'bg-red-100 text-red-700'">
+
+    {{ student.isActive ? 'Active' : 'Inactive' }}
+
+  </span>
+
+</div>

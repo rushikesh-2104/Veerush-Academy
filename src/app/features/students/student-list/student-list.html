@@ -1,0 +1,223 @@
+<div class="space-y-6 p-6">
+
+  <!-- Header -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+    <div>
+
+      <h1 class="text-3xl font-bold text-slate-800">
+        Students
+      </h1>
+
+      <p class="mt-1 text-slate-500">
+        Manage all your tuition students.
+      </p>
+
+    </div>
+
+    <button (click)="openAddStudentModal()"
+      class="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700">
+
+      <i class="fa-solid fa-plus mr-2"></i>
+
+      Add Student
+
+    </button>
+
+  </div>
+
+  <!-- Search -->
+
+  <div class="relative">
+
+    <i
+      class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+    </i>
+
+    <input
+  type="text"
+  placeholder="Search student..."
+  [(ngModel)]="searchText"
+  class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-12 pr-4 outline-none focus:border-blue-500">
+
+  </div>
+
+  <!-- Students -->
+
+  <div class="space-y-4">
+
+    <div
+  *ngFor="let student of filteredStudents"
+  class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+
+  <div class="flex items-start justify-between">
+
+    <!-- Left -->
+
+    <div
+      (click)="openStudent(student)"
+      class="flex cursor-pointer items-center gap-4">
+
+      <div
+        class="flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-xl font-bold text-blue-600">
+
+        {{ student.fullName.charAt(0) }}
+
+      </div>
+
+      <div>
+
+        <h2 class="text-lg font-bold">
+
+          {{ student.fullName }}
+
+        </h2>
+
+        <p class="text-sm text-slate-500">
+
+          Class {{ student.standard }}
+
+        </p>
+
+        <p class="text-sm">
+
+          📚 {{ student.course }}
+
+        </p>
+
+        <p class="text-sm">
+
+          🏫 {{ student.school }}
+
+        </p>
+
+        <p class="text-sm">
+
+          📞 {{ student.phone }}
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Right -->
+
+    <div class="flex flex-col items-end gap-3">
+
+      <span
+        class="rounded-full px-3 py-1 text-xs font-semibold"
+        [ngClass]="student.isActive
+        ? 'bg-green-100 text-green-700'
+        : 'bg-red-100 text-red-700'">
+
+        {{ student.isActive ? 'Active' : 'Inactive' }}
+
+      </span>
+
+      <div class="text-sm font-semibold text-blue-600">
+
+        ₹ {{ student.monthlyFees }}
+
+      </div>
+
+      <div class="flex gap-2">
+
+        <!-- View -->
+
+        <button
+          (click)="openStudent(student)"
+          class="rounded-lg bg-slate-100 px-3 py-2 hover:bg-slate-200">
+
+          <i class="fa-solid fa-eye">View</i>
+
+        </button>
+
+        <!-- Edit -->
+
+        <button
+          (click)="editStudent(student)"
+          class="rounded-lg bg-yellow-100 px-3 py-2 text-yellow-700 hover:bg-yellow-200">
+
+          <i class="fa-solid fa-pen">Edit</i>
+
+        </button>
+
+        <!-- Delete -->
+
+        <button
+          (click)="deleteStudent(student._id)"
+          class="rounded-lg bg-red-100 px-3 py-2 text-red-700 hover:bg-red-200">
+
+          <i class="fa-solid fa-trash">Delete</i>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </div>
+
+</div>
+
+<div
+  *ngIf="showAddStudentModal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+
+  <div
+    class="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
+
+   <app-student-form
+  *ngIf="showAddStudentModal"
+  [student]="selectedStudentForEdit"
+  (close)="studentAdded()">
+</app-student-form>
+
+  </div>
+
+</div>
+
+
+<div
+  *ngIf="filteredStudents.length===0"
+  class="rounded-2xl bg-white p-10 text-center shadow">
+
+  <i
+    class="fa-solid fa-user-graduate text-5xl text-slate-300">
+  </i>
+
+  <h2 class="mt-4 text-xl font-bold">
+
+    No Students Found
+
+  </h2>
+
+  <p class="mt-2 text-slate-500">
+
+    Try another search or add a new student.
+
+  </p>
+
+</div>
+
+<div
+  *ngIf="showStudentDetails"
+  class="fixed inset-0 z-50 flex justify-end bg-black/40">
+
+  <div
+     class="relative h-full w-full max-w-xl overflow-y-auto bg-white shadow-2xl">
+
+    <app-student-details
+  *ngIf="showStudentDetails"
+  [student]="selectedStudent"
+  (close)="closeStudentDetails()">
+</app-student-details>
+
+  </div>
+
+</div>

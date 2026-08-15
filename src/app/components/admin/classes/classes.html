@@ -1,0 +1,269 @@
+<div class="space-y-6 p-6">
+
+  <!-- ========================== -->
+  <!-- Header -->
+  <!-- ========================== -->
+
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+    <div>
+
+      <h1 class="text-3xl font-bold text-slate-800">
+        📅 Class Schedule
+      </h1>
+
+      <p class="mt-1 text-slate-500">
+        Manage all upcoming and completed classes.
+      </p>
+
+    </div>
+
+    <button
+      (click)="openClassModal()"
+      class="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">
+
+      <i class="fa-solid fa-plus mr-2"></i>
+
+      Schedule Class
+
+    </button>
+
+  </div>
+
+  <!-- ========================== -->
+  <!-- Dashboard -->
+  <!-- ========================== -->
+
+  <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Total Classes
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-blue-600">
+        {{ totalClasses }}
+      </h2>
+
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Today's Classes
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-green-600">
+        {{ todayClasses }}
+      </h2>
+
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Scheduled
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-orange-500">
+        {{ upcomingClasses }}
+      </h2>
+
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Completed
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-purple-600">
+        {{ completedClasses }}
+      </h2>
+
+    </div>
+
+  </div>
+
+  <!-- ========================== -->
+  <!-- Search -->
+  <!-- ========================== -->
+
+  <div class="rounded-2xl bg-white p-6 shadow">
+
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      (input)="searchClasses()"
+      placeholder="Search by Course, Subject, Teacher..."
+      class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+  </div>
+
+  <!-- ========================== -->
+  <!-- Table -->
+  <!-- ========================== -->
+
+  <div class="overflow-hidden rounded-2xl bg-white shadow">
+
+    <div class="overflow-x-auto">
+
+      <table class="min-w-full">
+
+        <thead class="bg-slate-100">
+
+          <tr>
+
+            <th class="px-5 py-4 text-left">
+              Course
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Subject
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Topic
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Teacher
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Date
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Time
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Status
+            </th>
+
+            <th class="px-5 py-4 text-center">
+              Action
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let item of filteredClasses"
+            class="border-b hover:bg-slate-50">
+
+            <td class="px-5 py-4 font-semibold">
+
+              {{ item.course }}
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              {{ item.subject }}
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              {{ item.topic }}
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              {{ item.teacher }}
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              {{ item.date | date:'dd MMM yyyy' }}
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              {{ item.startTime }}
+
+              -
+
+              {{ item.endTime }}
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              <span
+                class="rounded-full px-3 py-1 text-sm font-semibold"
+                [ngClass]="getStatusClass(item.status)">
+
+                {{ item.status }}
+
+              </span>
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              <div class="flex justify-center gap-3">
+
+                <button (click)="editClass(item)"
+                  class="text-blue-600 hover:text-blue-800">
+
+                  <i class="fa-solid fa-pen">Edit</i>
+
+                </button>
+
+                <button
+                  (click)="deleteClass(item._id)"
+                  class="text-red-600 hover:text-red-800">
+
+                  <i class="fa-solid fa-trash">Delete</i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+          <!-- Empty -->
+
+          <tr *ngIf="filteredClasses.length===0">
+
+            <td
+              colspan="8"
+              class="py-12 text-center text-slate-500">
+
+              📭 No Classes Scheduled
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- ========================== -->
+  <!-- Modal -->
+  <!-- ========================== -->
+
+  <app-classes-form
+  *ngIf="showClassModal"
+  [classData]="selectedClass"
+  (close)="closeClassModal()">
+</app-classes-form>
+
+</div>

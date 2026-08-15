@@ -1,0 +1,175 @@
+<!-- Overlay (Mobile) -->
+
+<div
+  *ngIf="open"
+  (click)="closeSidebar.emit()"
+  class="fixed inset-0 z-40 bg-black/50 lg:hidden">
+</div>
+
+<!-- Sidebar -->
+
+<aside
+  class="fixed left-0 top-0 z-50 flex h-screen w-72 flex-col shadow-lg bg-white transition-transform duration-300 lg:static lg:translate-x-0"
+  [class.-translate-x-full]="!open"
+  [class.translate-x-0]="open">
+
+  <!-- Header -->
+
+  <div class="flex items-center justify-between  p-6">
+
+    <div>
+
+      <h1 class="text-3xl font-extrabold text-blue-600">
+        VEERUSH 
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500">
+        Tuition Management System
+      </p>
+
+    </div>
+
+    <!-- Mobile Close -->
+
+    <button
+      (click)="closeSidebar.emit()"
+      class="rounded-lg p-2 hover:bg-slate-100 lg:hidden">
+
+      <i class="fa-solid fa-xmark text-2xl">x</i>
+
+    </button>
+
+  </div>
+
+  <!-- Menu -->
+
+  <nav class="flex-1 overflow-y-auto p-4">
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      [routerLinkActiveOptions]="{exact:true}"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-house w-5"></i>
+
+      Dashboard
+
+    </a>
+
+    <a
+      routerLink="/students"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-user-graduate w-5"></i>
+
+      Students
+
+    </a>
+
+    <a
+      routerLink="/attendance"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-calendar-check w-5"></i>
+
+      Attendance
+
+    </a>
+
+    <a
+      routerLink="/announcements"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-book w-5"></i>
+
+      Accouncements
+
+    </a>
+
+    <a
+      routerLink="/homework"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-book-open w-5"></i>
+
+      Homework
+
+    </a>
+
+    <a
+      routerLink="/tests"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-file-pen w-5"></i>
+
+      Tests
+
+    </a>
+
+    <a
+      routerLink="/fees"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-indian-rupee-sign w-5"></i>
+
+      Fees
+
+    </a>
+
+    <a
+  routerLink="/classes"
+  routerLinkActive="bg-blue-50 text-blue-600"
+  class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+  <i class="fa-solid fa-calendar-days w-5"></i>
+
+  Classes
+
+</a>
+
+    <a
+      routerLink="/reports"
+      routerLinkActive="bg-blue-50 text-blue-600"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-chart-line w-5"></i>
+
+      Reports
+
+    </a>
+
+  </nav>
+
+  <!-- Footer -->
+
+  <div class="shadow-lg p-4">
+
+    <a
+      routerLink="/settings"
+      class="mb-2 flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-blue-50">
+
+      <i class="fa-solid fa-gear w-5"></i>
+
+      Settings
+
+    </a>
+
+    <button (click)="logout()"
+      class="flex w-full items-center gap-4 rounded-xl px-4 py-3 text-red-500 hover:bg-red-50">
+
+      <i class="fa-solid fa-right-from-bracket w-5"></i>
+
+      Logout
+
+    </button>
+
+  </div>
+
+</aside>

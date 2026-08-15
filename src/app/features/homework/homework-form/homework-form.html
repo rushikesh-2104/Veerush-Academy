@@ -1,0 +1,245 @@
+<!-- Background -->
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+
+  <!-- Modal -->
+
+  <div
+    class="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div
+      class="sticky top-0 flex items-center justify-between border-b bg-white p-6">
+
+      <div>
+
+        <h2 class="text-2xl font-bold text-slate-800">
+
+          📚 Add Homework
+
+        </h2>
+
+        <p class="mt-1 text-sm text-slate-500">
+
+          Create a homework assignment.
+
+        </p>
+
+      </div>
+
+      <button
+        (click)="close.emit()"
+        class="rounded-xl p-2 hover:bg-slate-100">
+
+        <i class="fa-solid fa-xmark text-2xl"></i>
+
+      </button>
+
+    </div>
+
+    <!-- Form -->
+
+    <form
+      [formGroup]="homeworkForm"
+      (ngSubmit)="saveHomework()"
+      class="space-y-8 p-6">
+
+      <!-- Homework Details -->
+
+      <section>
+
+        <h3
+          class="mb-5 flex items-center gap-2 text-lg font-bold text-blue-600">
+
+          <i class="fa-solid fa-book"></i>
+
+          Homework Details
+
+        </h3>
+
+        <div class="grid gap-5 md:grid-cols-2">
+
+          <!-- Title -->
+
+          <div class="md:col-span-2">
+
+            <label class="mb-2 block font-medium">
+
+              Homework Title
+
+            </label>
+
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="Fractions Worksheet"
+              class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+          </div>
+
+          <!-- Subject -->
+
+          <div>
+
+            <label class="mb-2 block font-medium">
+
+              Subject
+
+            </label>
+
+            <input
+              type="text"
+              formControlName="subject"
+              placeholder="Mathematics"
+              class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+          </div>
+
+          <!-- Student -->
+
+<div>
+
+  <label class="mb-2 block font-medium">
+
+    Assign Student
+
+  </label>
+
+  <select
+  formControlName="studentId"
+  class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3">
+
+  <option value="">
+    Select Student
+  </option>
+
+  <option
+    *ngFor="let student of students"
+    [value]="student._id">
+
+    {{ student.fullName }}
+
+  </option>
+
+</select>
+
+</div>
+
+          <!-- Due Date -->
+
+          <div>
+
+            <label class="mb-2 block font-medium">
+
+              Due Date
+
+            </label>
+
+            <input
+              type="date"
+              formControlName="dueDate"
+              class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+          </div>
+
+          <!-- Status -->
+
+          <div>
+
+            <label class="mb-2 block font-medium">
+
+              Status
+
+            </label>
+
+            <select
+              formControlName="status"
+              class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+              <option value="Pending">
+
+                Pending
+
+              </option>
+
+              <option value="Completed">
+
+                Completed
+
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- Description -->
+
+      <section>
+
+        <label class="mb-2 block font-medium">
+
+          Description
+
+        </label>
+
+        <textarea
+          rows="5"
+          formControlName="description"
+          placeholder="Write homework instructions..."
+          class="w-full rounded-xl border border-slate-300 p-4"></textarea>
+
+      </section>
+
+      <!-- Attachment -->
+
+      <section>
+
+        <label class="mb-2 block font-medium">
+
+          Attachment (Optional)
+
+        </label>
+
+        <input
+          type="text"
+          formControlName="attachment"
+          placeholder="PDF / Google Drive Link"
+          class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+      </section>
+
+      <!-- Footer -->
+
+      <div
+        class="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
+
+        <button
+          type="button"
+          (click)="close.emit()"
+          class="rounded-xl border border-slate-300 px-6 py-3 font-semibold hover:bg-slate-100">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">
+
+          Save Homework
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

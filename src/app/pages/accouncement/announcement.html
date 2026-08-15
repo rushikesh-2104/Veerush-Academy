@@ -1,0 +1,249 @@
+<div class="p-6">
+
+  <!-- ==========================
+       Header
+  =========================== -->
+
+  <div class="mb-6 flex items-center justify-between">
+
+    <div>
+
+      <h1 class="text-3xl font-bold text-slate-800">
+        📢 Announcements
+      </h1>
+
+      <p class="mt-1 text-slate-500">
+        Manage institute announcements.
+      </p>
+
+    </div>
+
+    <button
+      (click)="openAnnouncementModal()"
+      class="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700">
+
+      <i class="fa-solid fa-plus mr-2"></i>
+
+      Add Announcement
+
+    </button>
+
+  </div>
+
+  <!-- ==========================
+       Dashboard Cards
+  =========================== -->
+
+  <div class="mb-8 grid gap-5 md:grid-cols-4">
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Total
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold">
+        {{ totalAnnouncements }}
+      </h2>
+
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Important
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-red-600">
+        {{ importantAnnouncements }}
+      </h2>
+
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Holidays
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-purple-600">
+        {{ holidayAnnouncements }}
+      </h2>
+
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow">
+
+      <p class="text-sm text-slate-500">
+        Active
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-green-600">
+        {{ activeAnnouncements }}
+      </h2>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================
+       Search
+  =========================== -->
+
+  <div class="mb-6">
+
+    <input
+      [(ngModel)]="searchText"
+      (input)="searchAnnouncements()"
+      type="text"
+      placeholder="Search Announcement..."
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none">
+
+  </div>
+
+  <!-- ==========================
+       Table
+  =========================== -->
+
+  <div class="overflow-hidden rounded-2xl bg-white shadow">
+
+    <table class="w-full">
+
+      <thead class="bg-slate-100">
+
+        <tr>
+
+          <th class="px-6 py-4 text-left">
+            Title
+          </th>
+
+          <th class="px-6 py-4 text-left">
+            Priority
+          </th>
+
+          <th class="px-6 py-4 text-left">
+            Date
+          </th>
+
+          <th class="px-6 py-4 text-left">
+            Status
+          </th>
+
+          <th class="px-6 py-4 text-center">
+            Actions
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr
+          *ngFor="let announcement of filteredAnnouncements"
+          class="border-b">
+
+          <td class="px-6 py-5">
+
+            <div class="font-semibold">
+
+              {{ announcement.title }}
+
+            </div>
+
+            <div class="mt-1 text-sm text-slate-500">
+
+              {{ announcement.description }}
+
+            </div>
+
+          </td>
+
+          <td class="px-6 py-5">
+
+            <span
+              class="rounded-full px-3 py-1 text-xs font-semibold"
+              [ngClass]="getPriorityClass(announcement.priority)">
+
+              {{ announcement.priority }}
+
+            </span>
+
+          </td>
+
+          <td class="px-6 py-5">
+
+            {{ announcement.date | date:'dd MMM yyyy' }}
+
+          </td>
+
+          <td class="px-6 py-5">
+
+            <span
+              class="rounded-full px-3 py-1 text-xs font-semibold"
+              [ngClass]="getStatusClass(announcement.isActive)">
+
+              {{ getStatusText(announcement.isActive) }}
+
+            </span>
+
+          </td>
+
+          <td class="px-6 py-5">
+
+            <div class="flex justify-center gap-3">
+
+              <button
+                (click)="editAnnouncement(announcement)"
+                class="rounded-lg bg-blue-100 px-3 py-2 text-blue-600 hover:bg-blue-200">
+
+                <i class="fa-solid fa-pen">Edit</i>
+
+              </button>
+
+              <button
+                (click)="deleteAnnouncement(announcement)"
+                class="rounded-lg bg-red-100 px-3 py-2 text-red-600 hover:bg-red-200">
+
+                <i class="fa-solid fa-trash">Delete</i>
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+        <!-- Empty -->
+
+        <tr *ngIf="!loading && filteredAnnouncements.length === 0">
+
+          <td
+            colspan="5"
+            class="py-10 text-center text-slate-500">
+
+            No announcements found.
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<!-- ==========================
+     Modal
+========================== -->
+
+<app-announcement-form
+  *ngIf="showAnnouncementModal"
+  [announcement]="selectedAnnouncement"
+  (close)="closeAnnouncementModal()"
+  (saved)="onAnnouncementSaved()">
+</app-announcement-form>

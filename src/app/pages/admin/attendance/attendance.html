@@ -1,0 +1,235 @@
+<form
+  [formGroup]="attendanceForm"
+  class="space-y-6 p-6">
+
+  <!-- ========================= -->
+  <!-- Header -->
+  <!-- ========================= -->
+
+  <section class="rounded-2xl bg-white p-6 shadow-sm border">
+
+    <div class="flex items-center justify-between">
+
+      <div>
+
+        <h2 class="text-3xl font-bold text-blue-600">
+          Attendance Management
+        </h2>
+
+        <p class="mt-2 text-slate-500">
+          Mark Student Attendance
+        </p>
+
+      </div>
+
+      <i class="fa-solid fa-calendar-check text-5xl text-blue-500"></i>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= -->
+  <!-- Filters -->
+  <!-- ========================= -->
+
+  <section class="rounded-2xl bg-white p-6 shadow-sm border">
+
+    <div class="grid gap-5 md:grid-cols-3">
+
+      <!-- Date -->
+
+      <div>
+
+        <label class="mb-2 block font-medium">
+
+          Attendance Date
+
+        </label>
+
+        <input
+          type="date"
+          formControlName="date"
+          class="w-full rounded-xl border px-4 py-3">
+
+      </div>
+
+      <!-- Standard -->
+
+      <div>
+
+        <label class="mb-2 block font-medium">
+
+          Standard
+
+        </label>
+
+        <input
+          type="text"
+          formControlName="standard"
+          placeholder="10th"
+          class="w-full rounded-xl border px-4 py-3">
+
+      </div>
+
+      <!-- Batch -->
+
+      <div>
+
+        <label class="mb-2 block font-medium">
+
+          Batch
+
+        </label>
+
+        <input
+          type="text"
+          formControlName="batch"
+          placeholder="Evening"
+          class="w-full rounded-xl border px-4 py-3">
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= -->
+  <!-- Student Table -->
+  <!-- ========================= -->
+
+  <section class="rounded-2xl bg-white p-6 shadow-sm border">
+
+    <div class="overflow-x-auto">
+
+      <table class="min-w-full">
+
+        <thead>
+
+          <tr class="border-b bg-slate-100">
+
+            <th class="px-4 py-3 text-left">
+              Student
+            </th>
+
+            <th class="px-4 py-3 text-left">
+              Standard
+            </th>
+
+            <th class="px-4 py-3 text-left">
+              Status
+            </th>
+
+            <th class="px-4 py-3 text-left">
+              Remarks
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for(student of attendanceData; track student._id){
+
+          <tr class="border-b hover:bg-slate-50">
+
+            <td class="px-4 py-3">
+
+              {{student.fullName}}
+
+            </td>
+
+            <td class="px-4 py-3">
+
+              {{student.standard}}
+
+            </td>
+
+            <td class="px-4 py-3">
+
+              <select
+                [(ngModel)]="student.status"
+                [ngModelOptions]="{standalone:true}"
+                class="rounded-lg border px-3 py-2">
+
+                <option value="Present">
+
+                  Present
+
+                </option>
+
+                <option value="Absent">
+
+                  Absent
+
+                </option>
+
+                <option value="Leave">
+
+                  Leave
+
+                </option>
+
+              </select>
+
+            </td>
+
+            <td class="px-4 py-3">
+
+              <input
+                [(ngModel)]="student.remarks"
+                [ngModelOptions]="{standalone:true}"
+                type="text"
+                placeholder="Remarks"
+                class="w-full rounded-lg border px-3 py-2">
+
+            </td>
+
+          </tr>
+
+          }
+
+          @empty {
+
+          <tr>
+
+            <td
+              colspan="4"
+              class="py-8 text-center text-slate-500">
+
+              No Students Found
+
+            </td>
+
+          </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= -->
+  <!-- Footer -->
+  <!-- ========================= -->
+
+  <div class="flex justify-end">
+
+    <button
+      type="button"
+      (click)="saveAttendance()"
+      class="rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white hover:bg-blue-700">
+
+      <i class="fa-solid fa-floppy-disk mr-2"></i>
+
+      Save Attendance
+
+    </button>
+
+  </div>
+
+</form>

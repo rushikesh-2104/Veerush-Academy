@@ -1,0 +1,311 @@
+<div class="space-y-6 p-6">
+
+  <!-- ========================== -->
+  <!-- Header -->
+  <!-- ========================== -->
+
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between ">
+
+    <div>
+
+      <h1 class="text-3xl font-bold text-slate-800">
+        Weekly Tests
+      </h1>
+
+      <p class="mt-1 text-slate-500">
+        Manage student weekly tests and results.
+      </p>
+
+    </div>
+
+    <button
+      (click)="openTestModal()"
+      class="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700">
+
+      <i class="fa-solid fa-plus mr-2"></i>
+
+      Add Test
+
+    </button>
+
+  </div>
+
+  <!-- ========================== -->
+  <!-- Dashboard Cards -->
+  <!-- ========================== -->
+
+  <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+
+    <!-- Total Tests -->
+
+    <div class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <p class="text-sm text-slate-500">
+        Total Tests
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-blue-600">
+        {{ totalTests }}
+      </h2>
+
+    </div>
+
+    <!-- Average -->
+
+    <div class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <p class="text-sm text-slate-500">
+        Average Score
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-green-600">
+        {{ averageMarks }}%
+      </h2>
+
+    </div>
+
+    <!-- Highest -->
+
+    <div class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <p class="text-sm text-slate-500">
+        Highest Score
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-purple-600">
+        {{ highestMarks }}%
+      </h2>
+
+    </div>
+
+    <!-- Passed -->
+
+    <div class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <p class="text-sm text-slate-500">
+        Passed Students
+      </p>
+
+      <h2 class="mt-2 text-3xl font-bold text-orange-500">
+        {{ passedStudents }}
+      </h2>
+
+    </div>
+
+  </div>
+
+  <!-- ========================== -->
+  <!-- Search -->
+  <!-- ========================== -->
+
+  <div class="rounded-2xl bg-white p-5 shadow-sm">
+
+    <input
+      [(ngModel)]="searchText"
+      (input)="searchTests()"
+      placeholder="Search by Student, Course or Test..."
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-blue-500 focus:outline-none">
+
+  </div>
+
+    <!-- ========================== -->
+  <!-- Tests Table -->
+  <!-- ========================== -->
+
+  <div class="overflow-hidden rounded-2xl bg-white shadow-sm">
+
+    <div class="overflow-x-auto">
+
+      <table class="min-w-full">
+
+        <thead class="bg-slate-100">
+
+          <tr>
+
+            <th class="px-6 py-4 text-left font-semibold">
+              Student
+            </th>
+
+            <th class="px-6 py-4 text-left font-semibold">
+              Course
+            </th>
+
+            <th class="px-6 py-4 text-left font-semibold">
+              Test
+            </th>
+
+            <th class="px-6 py-4 text-center font-semibold">
+              Marks
+            </th>
+
+            <th class="px-6 py-4 text-center font-semibold">
+              %
+            </th>
+
+            <th class="px-6 py-4 text-center font-semibold">
+              Result
+            </th>
+
+            <th class="px-6 py-4 text-center font-semibold">
+              Date
+            </th>
+
+            <th class="px-6 py-4 text-center font-semibold">
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let test of filteredTests"
+            class="border-t hover:bg-slate-50">
+
+            <!-- Student -->
+
+            <td class="px-6 py-4">
+
+              <div>
+
+                <p class="font-semibold">
+
+                  {{ test.student?.fullName }}
+
+                </p>
+
+                <p class="text-sm text-slate-500">
+
+                  {{ test.student?.email }}
+
+                </p>
+
+              </div>
+
+            </td>
+
+            <!-- Course -->
+
+            <td class="px-6 py-4">
+
+              {{ test.course }}
+
+            </td>
+
+            <!-- Title -->
+
+            <td class="px-6 py-4 font-medium">
+
+              {{ test.title }}
+
+            </td>
+
+            <!-- Marks -->
+
+            <td class="px-6 py-4 text-center font-semibold">
+
+              {{ test.obtainedMarks }}
+
+              /
+
+              {{ test.totalMarks }}
+
+            </td>
+
+            <!-- Percentage -->
+
+            <td class="px-6 py-4 text-center">
+
+              <span
+                class="rounded-full bg-blue-100 px-3 py-1 font-semibold text-blue-700">
+
+                {{ getPercentage(test) }}%
+
+              </span>
+
+            </td>
+
+            <!-- Result -->
+
+            <td class="px-6 py-4 text-center">
+
+              <span
+                class="rounded-full px-3 py-1 text-sm font-semibold"
+                [ngClass]="getResultClass(test)">
+
+                {{ getResult(test) }}
+
+              </span>
+
+            </td>
+
+            <!-- Date -->
+
+            <td class="px-6 py-4 text-center">
+
+              {{ test.testDate | date:'dd MMM yyyy' }}
+
+            </td>
+
+            <!-- Actions -->
+
+            <td class="px-6 py-4">
+
+              <div class="flex justify-center gap-2">
+
+                <button
+                  (click)="editTest(test)"
+                  class="rounded-lg bg-yellow-100 px-3 py-2 text-yellow-700 hover:bg-yellow-200">
+
+                  <i class="fa-solid fa-pen">Edit</i>
+
+                </button>
+
+                <button
+                  (click)="deleteTest(test._id)"
+                  class="rounded-lg bg-red-100 px-3 py-2 text-red-600 hover:bg-red-200">
+
+                  <i class="fa-solid fa-trash">Delete</i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+          <!-- Empty -->
+
+          <tr *ngIf="filteredTests.length === 0">
+
+            <td
+              colspan="8"
+              class="py-10 text-center text-slate-500">
+
+              No Tests Found
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- ========================== -->
+<!-- Test Form Modal -->
+<!-- ========================== -->
+
+<app-test-form
+  *ngIf="showTestModal"
+  [test]="selectedTest"
+  (close)="closeTestModal()"
+  (saved)="saveTest()">
+</app-test-form>

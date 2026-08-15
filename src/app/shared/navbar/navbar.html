@@ -1,0 +1,106 @@
+<nav
+  class="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-4 lg:px-8">
+
+  <!-- LEFT -->
+
+  <div class="flex items-center gap-3">
+
+    <!-- Mobile Menu -->
+
+    <button
+      (click)="toggleSidebar()"
+      class="rounded-lg p-2 hover:bg-slate-100 lg:hidden">
+
+      <i class="fa-solid fa-bars text-xl text-slate-700">=</i>
+
+    </button>
+
+    <!-- Greeting -->
+
+    <div>
+
+      <h2 class="text-xl font-bold text-slate-800 sm:text-2xl lg:text-3xl">
+
+        {{ greeting }}
+
+      </h2>
+
+      <!-- Desktop -->
+
+      <div
+        class="mt-1 hidden items-center gap-3 text-sm text-slate-500 sm:flex">
+
+        <span>
+
+          {{ currentDate }}
+
+        </span>
+
+        <span>
+
+          •
+
+        </span>
+
+        <span class="font-semibold text-blue-600">
+
+          {{ currentTime }}
+
+        </span>
+
+      </div>
+
+      <!-- Mobile -->
+
+      <div
+        class="mt-1 text-xs font-medium text-blue-600 sm:hidden">
+
+        {{ currentTime }}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+
+  <div class="flex items-center gap-2 sm:gap-3">
+
+    
+
+    <!-- Profile -->
+
+    <button
+      class="flex items-center gap-2 rounded-xl border border-slate-200 px-2 py-2 transition hover:bg-slate-100 sm:px-3">
+
+      <img
+        src="https://ui-avatars.com/api/?name=Rushikesh&background=2563eb&color=fff"
+        class="h-10 w-10 rounded-full" />
+
+      <!-- Desktop Only -->
+
+      <div class="hidden text-left lg:block">
+
+        <p class="font-semibold text-slate-800">
+
+          Rushikesh
+
+        </p>
+
+        <p class="text-sm text-slate-500">
+
+          Administrator
+
+        </p>
+
+      </div>
+
+      <i
+        class="fa-solid fa-chevron-down hidden text-sm text-slate-500 lg:block"></i>
+
+    </button>
+
+  </div>
+
+</nav>

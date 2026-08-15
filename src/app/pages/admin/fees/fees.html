@@ -1,0 +1,581 @@
+<div class="space-y-8 p-6">
+
+    <!-- ========================================= -->
+    <!-- Header -->
+    <!-- ========================================= -->
+
+    <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-slate-800">
+                💰 Fees Management
+            </h1>
+
+            <p class="mt-2 text-slate-500">
+                Manage student fees, installments and payments.
+            </p>
+
+        </div>
+
+        <button     (click)="openFeeModal()"
+            class="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700">
+
+            <i class="fa-solid fa-plus mr-2"></i>
+
+            Add Fee
+
+        </button>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Dashboard Cards -->
+    <!-- ========================================= -->
+
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+
+        <!-- Students -->
+
+        <div
+            class="rounded-2xl bg-white p-6 shadow">
+
+            <p class="text-slate-500">
+
+                Students
+
+            </p>
+
+            <h2
+                class="mt-2 text-3xl font-bold text-blue-600">
+
+                {{ totalStudents }}
+
+            </h2>
+
+        </div>
+
+        <!-- Collection -->
+
+        <div
+            class="rounded-2xl bg-white p-6 shadow">
+
+            <p class="text-slate-500">
+
+                Collection
+
+            </p>
+
+            <h2
+                class="mt-2 text-3xl font-bold text-green-600">
+
+                ₹{{ totalCollection }}
+
+            </h2>
+
+        </div>
+
+        <!-- Pending -->
+
+        <div
+            class="rounded-2xl bg-white p-6 shadow">
+
+            <p class="text-slate-500">
+
+                Pending
+
+            </p>
+
+            <h2
+                class="mt-2 text-3xl font-bold text-orange-500">
+
+                ₹{{ totalPending }}
+
+            </h2>
+
+        </div>
+
+        <!-- Overdue -->
+
+        <div
+            class="rounded-2xl bg-white p-6 shadow">
+
+            <p class="text-slate-500">
+
+                Overdue
+
+            </p>
+
+            <h2
+                class="mt-2 text-3xl font-bold text-red-500">
+
+                {{ overdueStudents }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Search -->
+    <!-- ========================================= -->
+
+    <div
+        class="rounded-2xl bg-white p-6 shadow">
+
+        <input
+
+            [(ngModel)]="searchText"
+
+            (input)="searchFees()"
+
+            placeholder="Search student..."
+
+            class="w-full rounded-xl border border-slate-300 px-5 py-3 outline-none focus:border-blue-500">
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Table -->
+    <!-- ========================================= -->
+
+    <div
+        class="overflow-hidden rounded-2xl bg-white shadow">
+
+        <div class="overflow-x-auto">
+
+            <table class="min-w-full">
+
+                <thead
+                    class="bg-slate-100">
+
+                    <tr>
+
+                        <th class="px-6 py-4 text-left">
+
+                            Student
+
+                        </th>
+
+                        <th class="px-6 py-4">
+
+                            Total
+
+                        </th>
+
+                        <th class="px-6 py-4">
+
+                            Paid
+
+                        </th>
+
+                        <th class="px-6 py-4">
+
+                            Remaining
+
+                        </th>
+
+                        <th class="px-6 py-4">
+
+                            Progress
+
+                        </th>
+
+                        <th class="px-6 py-4">
+
+                            Status
+
+                        </th>
+
+                        <th class="px-6 py-4">
+
+                            Action
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr
+
+                        *ngFor="let fee of filteredFees"
+
+                        class="border-t">
+
+                        <!-- Student -->
+
+                        <td class="px-6 py-5">
+
+                            <div
+                                class="font-semibold">
+
+                                {{ fee.student?.fullName }}
+
+                            </div>
+
+                            <div
+                                class="text-sm text-slate-500">
+
+                                {{ fee.student?.email }}
+
+                            </div>
+
+                        </td>
+
+                        <!-- Total -->
+
+                        <td class="text-center">
+
+                            ₹{{ fee.totalFees }}
+
+                        </td>
+
+                        <!-- Paid -->
+
+                        <td class="text-center text-green-600 font-bold">
+
+                            ₹{{ fee.paidAmount }}
+
+                        </td>
+
+                        <!-- Remaining -->
+
+                        <td class="text-center text-red-600 font-bold">
+
+                            ₹{{ fee.remainingAmount }}
+
+                        </td>
+
+                        <!-- Progress -->
+
+                        <td class="px-6 py-5">
+
+                            <div
+                                class="h-3 rounded-full bg-slate-200">
+
+                                <div
+
+                                    class="h-3 rounded-full bg-blue-600"
+
+                                    [style.width.%]="getPercentage(fee)">
+
+                                </div>
+
+                            </div>
+
+                            <p
+                                class="mt-2 text-sm">
+
+                                {{ getPercentage(fee) }}%
+
+                            </p>
+
+                        </td>
+
+                        <!-- Status -->
+
+                        <td
+                            class="text-center">
+
+                            <span
+    [ngClass]="getStatusClass(fee.status)"
+    class="rounded-full px-4 py-2 text-sm font-semibold">
+
+    {{ fee.status }}
+
+</span>
+
+                        </td>
+
+                        <!-- Actions -->
+
+                        <td class="px-6 py-5">
+  <div class="flex gap-2">
+
+    <!-- Receive -->
+    <button
+      (click)="openPaymentModal(fee)"
+      class="rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700">
+      💰 Receive
+    </button>
+
+    <!-- View -->
+    <button
+      (click)="viewStudent(fee)"
+      class="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+      View
+    </button>
+
+    <!-- Delete -->
+    <button
+      (click)="deleteFee(fee._id)"
+      class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+      🗑 Delete
+    </button>
+
+  </div>
+</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- Add Fee Modal -->
+<!-- ===================================================== -->
+
+<app-fees-form
+    *ngIf="showFeeModal"
+    (close)="closeFeeModal()">
+</app-fees-form>
+
+<!-- ===================================================== -->
+<!-- Receive Payment Modal -->
+<!-- ===================================================== -->
+
+@if(showPaymentModal){
+
+<div
+class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-5">
+
+    <div
+        class="w-full max-w-xl rounded-3xl bg-white shadow-2xl">
+
+        <!-- Header -->
+
+        <div
+            class="flex items-center justify-between border-b p-6">
+
+            <div>
+
+                <h2
+                    class="text-2xl font-bold">
+
+                    💰 Receive Payment
+
+                </h2>
+
+                <p
+                    class="mt-1 text-slate-500">
+
+                    Collect student fees
+
+                </p>
+
+            </div>
+
+            <button
+                (click)="showPaymentModal=false">
+
+                ✕
+
+            </button>
+
+        </div>
+
+        <!-- Body -->
+
+        <div
+            class="space-y-5 p-6">
+
+            <!-- Student -->
+
+            <div>
+
+                <p
+                    class="text-slate-500">
+
+                    Student
+
+                </p>
+
+                <h2
+                    class="text-xl font-bold">
+
+                    {{selectedFee?.student?.fullName}}
+
+                </h2>
+
+            </div>
+
+            <!-- Remaining -->
+
+            <div
+                class="rounded-xl bg-red-50 p-4">
+
+                <p>
+
+                    Remaining Amount
+
+                </p>
+
+                <h2
+                    class="text-3xl font-bold text-red-600">
+
+                    ₹{{selectedFee?.remainingAmount}}
+
+                </h2>
+
+            </div>
+
+            <!-- Amount -->
+
+            <div>
+
+                <label
+                    class="mb-2 block font-semibold">
+
+                    Paying Amount
+
+                </label>
+
+                <input
+                    type="number"
+                    [(ngModel)]="payment.amount"
+                    class="w-full rounded-xl border p-3">
+
+            </div>
+
+            <!-- Payment Method -->
+
+            <div>
+
+                <label
+                    class="mb-3 block font-semibold">
+
+                    Payment Method
+
+                </label>
+
+                <div
+                    class="grid grid-cols-2 gap-4">
+
+                    <button
+
+                        type="button"
+
+                        (click)="payment.method='Cash'"
+
+                        [class.bg-blue-600]="payment.method==='Cash'"
+
+                        [class.text-white]="payment.method==='Cash'"
+
+                        class="rounded-xl border p-4">
+
+                        💵 Cash
+
+                    </button>
+
+                    <button
+
+                        type="button"
+
+                        (click)="payment.method='UPI'"
+
+                        [class.bg-blue-600]="payment.method==='UPI'"
+
+                        [class.text-white]="payment.method==='UPI'"
+
+                        class="rounded-xl border p-4">
+
+                        📱 GPay / UPI
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- QR -->
+
+            @if(payment.method==='UPI'){
+
+            <div
+                class="rounded-2xl bg-slate-100 p-6 text-center">
+
+                <img
+
+                    src="assets/images/qr.png"
+
+                    class="mx-auto w-56">
+
+                <p
+                    class="mt-4">
+
+                    Scan QR using Google Pay
+
+                </p>
+
+            </div>
+
+            }
+
+            <!-- Remarks -->
+
+            <div>
+
+                <label
+                    class="mb-2 block font-semibold">
+
+                    Remarks
+
+                </label>
+
+                <textarea
+
+                    [(ngModel)]="payment.remarks"
+
+                    rows="3"
+
+                    class="w-full rounded-xl border p-3">
+
+                </textarea>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+
+        <div
+            class="flex justify-end gap-3 border-t p-6">
+
+            <button
+
+                (click)="showPaymentModal=false"
+
+                class="rounded-xl border px-6 py-3">
+
+                Cancel
+
+            </button>
+
+            <button
+
+                (click)="receivePayment()"
+
+                class="rounded-xl bg-green-600 px-6 py-3 text-white">
+
+                Receive Payment
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+}

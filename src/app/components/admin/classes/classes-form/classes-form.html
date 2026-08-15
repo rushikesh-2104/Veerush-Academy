@@ -1,0 +1,432 @@
+<!-- Background -->
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-3 sm:p-5">
+
+  <!-- Modal -->
+
+  <div
+    class="flex w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[95vh]">
+
+    <!-- Header -->
+
+    <div
+      class="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-5 py-5 sm:px-8">
+
+      <div>
+
+        <h2 class="text-xl font-bold text-slate-800 sm:text-2xl">
+          📅 Schedule New Class
+        </h2>
+
+        <p class="mt-1 text-sm text-slate-500">
+          Schedule today's or upcoming class.
+        </p>
+
+      </div>
+
+      <button
+        (click)="close.emit()"
+        class="rounded-xl p-3 transition hover:bg-slate-100">
+
+        <i class="fa-solid fa-xmark text-xl"></i>
+
+      </button>
+
+    </div>
+
+    <!-- Scrollable Form -->
+
+    <form
+      [formGroup]="classForm"
+      (ngSubmit)="saveClass()"
+      class="flex-1 overflow-y-auto space-y-6 p-5 sm:p-8">
+
+      <!-- ================================================= -->
+<!-- Course + Standard -->
+<!-- ================================================= -->
+
+<div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      📚 Course
+    </label>
+
+    <input
+      type="text"
+      formControlName="course"
+      placeholder="Olympiad CS"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      🎓 Standard
+    </label>
+
+    <input
+      type="text"
+      formControlName="standard"
+      placeholder="9th"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- Subject + Topic -->
+<!-- ================================================= -->
+
+<div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      📖 Subject
+    </label>
+
+    <input
+      type="text"
+      formControlName="subject"
+      placeholder="Computer Science"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      📝 Topic
+    </label>
+
+    <input
+      type="text"
+      formControlName="topic"
+      placeholder="Introduction to Networking"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- Teacher + Date -->
+<!-- ================================================= -->
+
+<div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      👨‍🏫 Teacher
+    </label>
+
+    <input
+      type="text"
+      formControlName="teacher"
+      placeholder="Rushikesh Sir"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      📅 Class Date
+    </label>
+
+    <input
+      type="date"
+      formControlName="date"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- Time -->
+<!-- ================================================= -->
+
+<div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      🕒 Start Time
+    </label>
+
+    <input
+      type="time"
+      formControlName="startTime"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+  <div>
+
+    <label class="mb-2 block text-sm font-semibold text-slate-700">
+      🕓 End Time
+    </label>
+
+    <input
+      type="time"
+      formControlName="endTime"
+      class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+  </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- Google Meet -->
+<!-- ================================================= -->
+
+<div>
+
+  <label class="mb-2 block text-sm font-semibold text-slate-700">
+    🔗 Google Meet Link
+  </label>
+
+  <input
+    type="text"
+    formControlName="meetLink"
+    placeholder="https://meet.google.com/..."
+    class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+
+</div>
+
+<!-- ================================================= -->
+<!-- Description -->
+<!-- ================================================= -->
+
+<div>
+
+  <label class="mb-2 block text-sm font-semibold text-slate-700">
+    📝 Description
+  </label>
+
+  <textarea
+    rows="3"
+    formControlName="description"
+    placeholder="Today's class agenda..."
+    class="min-h-28 w-full resize-none rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+  </textarea>
+
+</div>
+
+<!-- ================================================= -->
+<!-- Live Preview -->
+<!-- ================================================= -->
+
+<div
+  class="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
+
+  <div class="mb-5 flex items-center gap-3">
+
+    <div
+      class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-xl text-white">
+
+      📅
+
+    </div>
+
+    <div>
+
+      <h3 class="font-bold text-blue-700">
+
+        Live Schedule Preview
+
+      </h3>
+
+      <p class="text-sm text-slate-500">
+
+        This is how today's class will look.
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+
+      <p class="text-xs text-slate-500">
+
+        Course
+
+      </p>
+
+      <h4 class="mt-1 font-semibold">
+
+        {{ classForm.value.course || 'Not Selected' }}
+
+      </h4>
+
+    </div>
+
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+
+      <p class="text-xs text-slate-500">
+
+        Standard
+
+      </p>
+
+      <h4 class="mt-1 font-semibold">
+
+        {{ classForm.value.standard || '-' }}
+
+      </h4>
+
+    </div>
+
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+
+      <p class="text-xs text-slate-500">
+
+        Subject
+
+      </p>
+
+      <h4 class="mt-1 font-semibold">
+
+        {{ classForm.value.subject || '-' }}
+
+      </h4>
+
+    </div>
+
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+
+      <p class="text-xs text-slate-500">
+
+        Topic
+
+      </p>
+
+      <h4 class="mt-1 font-semibold">
+
+        {{ classForm.value.topic || '-' }}
+
+      </h4>
+
+    </div>
+
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+
+      <p class="text-xs text-slate-500">
+
+        Teacher
+
+      </p>
+
+      <h4 class="mt-1 font-semibold">
+
+        {{ classForm.value.teacher || '-' }}
+
+      </h4>
+
+    </div>
+
+    <div class="rounded-xl bg-white p-4 shadow-sm">
+
+      <p class="text-xs text-slate-500">
+
+        Schedule
+
+      </p>
+
+      <h4 class="mt-1 font-semibold">
+
+        {{ classForm.value.date || '--' }}
+
+      </h4>
+
+      <p class="text-sm text-slate-500">
+
+        {{ classForm.value.startTime || '--' }}
+        -
+        {{ classForm.value.endTime || '--' }}
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- Footer -->
+<!-- ================================================= -->
+
+<div
+  class="sticky bottom-0 flex flex-col-reverse gap-3 border-t bg-white px-5 py-5 sm:flex-row sm:justify-end">
+
+  <!-- Cancel -->
+
+  <button
+    type="button"
+    (click)="close.emit()"
+    class="rounded-xl border border-slate-300 px-6 py-3 font-semibold text-slate-700 transition duration-300 hover:bg-slate-100">
+
+    Cancel
+
+  </button>
+
+  <!-- Submit -->
+
+  <button
+    type="submit"
+    [disabled]="loading || classForm.invalid"
+    class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-3 font-semibold text-white shadow-lg transition duration-300 hover:scale-105 hover:from-blue-700 hover:to-indigo-700 disabled:cursor-not-allowed disabled:opacity-50">
+
+    <span *ngIf="!loading">
+      📅 Schedule Class
+    </span>
+
+    <span *ngIf="loading" class="flex items-center gap-2">
+
+      <svg
+        class="h-5 w-5 animate-spin"
+        fill="none"
+        viewBox="0 0 24 24">
+
+        <circle
+          class="opacity-20"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4">
+        </circle>
+
+        <path
+          class="opacity-90"
+          fill="currentColor"
+          d="M12 2a10 10 0 0 1 10 10h-4a6 6 0 0 0-6-6V2z">
+        </path>
+
+      </svg>
+
+      Scheduling...
+
+    </span>
+
+  </button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>

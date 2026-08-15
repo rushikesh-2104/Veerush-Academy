@@ -1,0 +1,188 @@
+<div class="p-6" *ngIf="student">
+
+  <div class="flex items-center justify-between mb-6">
+
+    <h2 class="text-2xl font-bold">
+        Student Details
+    </h2>
+
+    <button
+        (click)="close.emit()"
+        class="h-10 w-10 bg-slate-100 rounded-full  hover:border-red-800 border-2">
+
+        <b class="fa-solid fa-xmark text-xl text-red-500">X</b>
+
+    </button>
+
+</div>
+
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+
+    <div>
+
+      <h2 class="text-2xl font-bold text-slate-800">
+        {{ student.fullName }}
+      </h2>
+
+      <p class="mt-1 text-slate-500">
+        Class {{ student.standard }}
+      </p>
+
+    </div>
+
+    <span
+      class="rounded-full px-4 py-2 text-sm font-semibold"
+      [ngClass]="{
+        'bg-green-100 text-green-700': student.isActive,
+        'bg-red-100 text-red-700': !student.isActive
+      }">
+
+      {{ student.isActive ? 'Active' : 'Inactive' }}
+
+    </span>
+
+  </div>
+
+  <!-- Personal Information -->
+
+  <div class="mt-6 rounded-2xl border border-slate-200 p-5">
+
+    <h3 class="mb-4 text-lg font-bold">
+
+      👤 Personal Information
+
+    </h3>
+
+    <div class="grid gap-3">
+
+      <p><strong>School:</strong> {{ student.school || '-' }}</p>
+
+      <p><strong>Course:</strong> {{ student.course || '-' }}</p>
+
+      <p><strong>Batch:</strong> {{ student.batch || '-' }}</p>
+
+      <p><strong>Board:</strong> {{ student.board }}</p>
+
+      <p><strong>Gender:</strong> {{ student.gender }}</p>
+
+      <p><strong>DOB:</strong> {{ student.dob | date:'dd MMM yyyy' }}</p>
+
+      <p><strong>Joining:</strong> {{ student.joiningDate | date:'dd MMM yyyy' }}</p>
+
+    </div>
+
+  </div>
+
+  <!-- Parent -->
+
+  <div class="mt-5 rounded-2xl border border-slate-200 p-5">
+
+    <h3 class="mb-4 text-lg font-bold">
+
+      👨‍👩‍👧 Parent Information
+
+    </h3>
+
+    <p>
+
+      <strong>Father:</strong>
+
+      {{ student.fatherName || '-' }}
+
+    </p>
+
+    <p class="mt-2">
+
+      <strong>Mother:</strong>
+
+      {{ student.motherName || '-' }}
+
+    </p>
+
+    <p class="mt-2">
+
+      <strong>Parent Phone:</strong>
+
+      {{ student.parentPhone || '-' }}
+
+    </p>
+
+  </div>
+
+  <!-- Contact -->
+
+  <div class="mt-5 rounded-2xl border border-slate-200 p-5">
+
+    <h3 class="mb-4 text-lg font-bold">
+
+      📞 Contact
+
+    </h3>
+
+    <p>
+
+      <strong>Phone:</strong>
+
+      {{ student.phone }}
+
+    </p>
+
+    <p class="mt-2">
+
+      <strong>Email:</strong>
+
+      {{ student.email }}
+
+    </p>
+
+    <p class="mt-2">
+
+      <strong>Address:</strong>
+
+      {{ student.address || '-' }}
+
+    </p>
+
+  </div>
+
+  <!-- Fees -->
+
+  <div class="mt-5 grid grid-cols-2 gap-4">
+
+    <div class="rounded-xl bg-green-50 p-4">
+
+      <p class="text-sm text-slate-500">
+
+        Monthly Fees
+
+      </p>
+
+      <h2 class="text-xl font-bold">
+
+        ₹{{ student.monthlyFees }}
+
+      </h2>
+
+    </div>
+
+    <div class="rounded-xl bg-blue-50 p-4">
+
+      <p class="text-sm text-slate-500">
+
+        Admission Fees
+
+      </p>
+
+      <h2 class="text-xl font-bold">
+
+        ₹{{ student.admissionFees }}
+
+      </h2>
+
+    </div>
+
+  </div>
+
+</div>
+

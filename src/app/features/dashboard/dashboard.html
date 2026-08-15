@@ -1,0 +1,129 @@
+<div class="flex h-screen bg-slate-100">
+
+  <!-- Sidebar -->
+  <app-sidebar
+    [open]="sidebarOpen"
+    (closeSidebar)="sidebarOpen = false">
+  </app-sidebar>
+
+  <!-- Right Side -->
+  <div class="flex flex-1 flex-col">
+
+    <!-- Navbar -->
+    <app-navbar
+      (menuClick)="toggleSidebar()">
+    </app-navbar>
+
+    <!-- Main -->
+    <main class="flex-1 overflow-y-auto p-2 md:p-4">
+
+      <!-- Welcome Card -->
+      <div class="rounded-2xl bg-white p-8 shadow-sm">
+
+        <h1 class="text-3xl font-bold text-slate-800">
+          Dashboard
+        </h1>
+
+        <p class="mt-2 text-slate-500">
+          Welcome to Veerush IT Academy Management System 🚀
+        </p>
+
+      </div>
+
+      <!-- Today's Classes -->
+      <section class="mt-8">
+
+        <div class="mb-5 flex items-center justify-between">
+
+          <h2 class="text-2xl font-bold text-slate-800">
+            📅 Today's Classes
+          </h2>
+
+          <span
+            class="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+
+            {{ todaysClasses.length }} Classes
+
+          </span>
+
+        </div>
+
+        <div class="grid gap-5">
+
+          <div
+            *ngFor="let cls of todaysClasses"
+            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+            <!-- Top -->
+            <div class="flex items-center justify-between">
+
+              <div>
+
+                <h3 class="text-xl font-bold text-slate-800">
+                  {{ cls.course }}
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-500">
+                  {{ cls.subject }}
+                </p>
+
+              </div>
+
+              <span
+                class="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+
+                {{ cls.startTime }} - {{ cls.endTime }}
+
+              </span>
+
+            </div>
+
+            <!-- Topic -->
+            <div class="mt-4">
+
+              <p class="text-slate-600">
+                📚 {{ cls.topic }}
+              </p>
+
+            </div>
+
+            <!-- Bottom -->
+            <div class="mt-5 flex items-center justify-between">
+
+              <span
+  class="rounded-full px-3 py-1 text-sm font-semibold"
+  [ngClass]="{
+    'bg-green-100 text-green-700': cls.status === 'Completed',
+    'bg-blue-100 text-blue-700': cls.status === 'Scheduled',
+    'bg-orange-100 text-orange-700': cls.status === 'Upcoming',
+    'bg-red-100 text-red-700': cls.status === 'Cancelled'
+  }">
+
+  {{ cls.status }}
+
+</span>
+
+              <a
+  *ngIf="cls.meetLink"
+  [href]="cls.meetLink"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="rounded-xl bg-blue-600 px-5 py-2 font-medium text-white transition hover:bg-blue-700">
+
+  Start Class
+
+</a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>

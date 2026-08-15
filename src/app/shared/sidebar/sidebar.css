@@ -1,0 +1,12 @@
+:host{
+    display:block;
+}
+
+::-webkit-scrollbar{
+    width:6px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#CBD5E1;
+    border-radius:20px;
+}
