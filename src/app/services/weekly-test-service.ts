@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class WeeklyTestService {
 
-  private api = 'http://localhost:5000/api/tests';
+  private api = 'https://veerush-academy-backend.vercel.app/api/tests';
 
   constructor(
     private http: HttpClient

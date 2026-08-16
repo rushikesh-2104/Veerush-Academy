@@ -9,7 +9,7 @@ import { Homework } from '../models/homework.model';
 })
 export class HomeworkService {
 
-  private apiUrl = 'http://localhost:5000/api/homework';
+  private apiUrl = 'https://veerush-academy-backend.vercel.app/api/homework';
 
   constructor(
     private http: HttpClient

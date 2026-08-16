@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 export class AnnouncementService {
 
-  private api = 'http://localhost:5000/api/announcements';
+  private api = 'https://veerush-academy-backend.vercel.app/api/announcements';
 
   constructor(
     private http: HttpClient

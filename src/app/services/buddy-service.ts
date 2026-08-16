@@ -9,7 +9,7 @@ import { Buddy } from '../models/buddy.model';
 })
 export class BuddyService {
 
-  private apiUrl = 'http://localhost:5000/api/buddy';
+  private apiUrl = 'https://veerush-academy-backend.vercel.app/api/buddy';
 
   constructor(
     private http: HttpClient

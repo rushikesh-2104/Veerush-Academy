@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class Attendance {
 
-  private apiUrl = 'http://localhost:5000/api/attendance';
-  private usersUrl = 'http://localhost:5000/api/users';
+private apiUrl = 'https://veerush-academy-backend.vercel.app/api/attendance';
+private usersUrl = 'https://veerush-academy-backend.vercel.app/api/users';
 
   constructor(
     private http: HttpClient
