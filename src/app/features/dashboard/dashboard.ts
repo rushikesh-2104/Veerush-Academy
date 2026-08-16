@@ -41,7 +41,7 @@ export class Dashboard implements OnInit {
 
         this.todaysClasses = res.data || [];
 
-        console.log("Today's Classes", this.todaysClasses);
+      
 
       },
 
