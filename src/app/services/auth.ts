@@ -9,8 +9,7 @@ export class AuthService {
 
   private http = inject(HttpClient);
 
-  private API = "http://localhost:5000/api/auth";
-
+private API = "https://veerush-academy-backend.vercel.app/api/auth";
   // ==========================
   // Register
   // ==========================
