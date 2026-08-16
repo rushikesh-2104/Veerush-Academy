@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class users {
 
-  private API = "https://veerush-academy-backend.vercel.app/api/users";
+  private api = "https://veerush-academy-backend.vercel.app/api/users";
 
   constructor(
     private http: HttpClient
