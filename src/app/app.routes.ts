@@ -2,114 +2,163 @@ import { Routes } from '@angular/router';
 
 import { Login } from './features/login/login';
 import { Dashboard } from './features/dashboard/dashboard';
+
 import { StudentList } from './features/students/student-list/student-list';
 import { Students } from './features/students/students';
+
 import { StudentDashboard } from './student-portal/student-dashboard/student-dashboard';
+
 import { Homeworkc } from './features/homework/homework';
 import { AdmissionForm } from './features/admission/admission-form/admission-form';
+
 import { AttendanceComponent } from './pages/admin/attendance/attendance';
 import { Fees } from './pages/admin/fees/fees';
+
 import { ClassesForm } from './components/admin/classes/classes-form/classes-form';
 import { Classes } from './components/admin/classes/classes';
+
 import { Test } from './pages/test/test';
 import { Announcement } from './pages/accouncement/announcement';
-import { authGuard } from './guards/auth-guard';
 
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
 
-  // ==========================
-  // Public Route
-  // ==========================
+  // ==========================================
+  // PUBLIC ROUTES
+  // ==========================================
 
   {
-    path: "",
+    path: '',
     component: Login
   },
 
-  // ==========================
-  // Protected Routes
-  // ==========================
+
+  // ==========================================
+  // ADMIN ROUTES
+  // ==========================================
 
   {
-    path: "dashboard",
+    path: 'dashboard',
     component: Dashboard,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "studentsL",
+    path: 'studentsL',
     component: StudentList,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "students",
+    path: 'students',
     component: Students,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "classesForm",
+    path: 'classesForm',
     component: ClassesForm,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "classes",
+    path: 'classes',
     component: Classes,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "tests",
+    path: 'tests',
     component: Test,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "student-dashboard",
-    component: StudentDashboard,
-    canActivate: [authGuard]
-  },
-
-  {
-    path: "homework",
+    path: 'homework',
     component: Homeworkc,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "admission",
+    path: 'admission',
     component: AdmissionForm,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "attendance",
+    path: 'attendance',
     component: AttendanceComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "fees",
+    path: 'fees',
     component: Fees,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
   {
-    path: "announcements",
+    path: 'announcements',
     component: Announcement,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: {
+      role: 'ADMIN'
+    }
   },
 
-  // ==========================
-  // Invalid Route
-  // ==========================
+
+  // ==========================================
+  // STUDENT ROUTES
+  // ==========================================
 
   {
-    path: "**",
-    redirectTo: ""
+    path: 'student-dashboard',
+    component: StudentDashboard,
+    canActivate: [authGuard],
+    data: {
+      role: 'STUDENT'
+    }
+  },
+
+
+  // ==========================================
+  // INVALID ROUTE
+  // ==========================================
+
+  {
+    path: '**',
+    redirectTo: ''
   }
 
 ];
