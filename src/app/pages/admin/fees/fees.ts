@@ -87,7 +87,7 @@ remarks:''
 
     next: (res: any) => {
 
-      console.log("Fees Response :", res);
+      
 
       this.loading = false;
 
@@ -284,7 +284,6 @@ this.payment
 
 next:(res)=>{
 
-console.log(res);
 
 this.showPaymentModal=false;
 

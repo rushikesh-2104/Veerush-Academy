@@ -74,7 +74,7 @@ export class Test implements OnInit {
 
         next: (res: any) => {
 
-          console.log("Tests :", res);
+          
 
           this.loading = false;
 
@@ -349,7 +349,7 @@ export class Test implements OnInit {
 
         next: (res: any) => {
 
-          console.log(res);
+          
 
           this.loadTests();
 

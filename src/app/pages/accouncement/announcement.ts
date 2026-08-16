@@ -81,10 +81,7 @@ export class Announcement implements OnInit {
 
         next: (res: any) => {
 
-          console.log(
-            'Announcements Response:',
-            res
-          );
+          
 
           this.loading = false;
 

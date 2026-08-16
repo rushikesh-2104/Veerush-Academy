@@ -78,7 +78,6 @@ export class AdmissionForm {
 
     next: (res) => {
 
-      console.log(res);
 
       alert("Student Registered Successfully");
 

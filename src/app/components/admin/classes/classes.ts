@@ -75,7 +75,6 @@ export class Classes implements OnInit {
 
         this.calculateStats();
 
-        console.log(this.classes);
 
       },
 
