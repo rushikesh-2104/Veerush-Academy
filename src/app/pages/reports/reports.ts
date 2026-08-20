@@ -33,7 +33,6 @@ export class Reports implements OnInit {
   private feeService = inject(FeeService);
   private reportService = inject(WeeklyReportService);
 
-
   // ==========================================
   // Students
   // ==========================================
@@ -44,7 +43,6 @@ export class Reports implements OnInit {
 
   selectedStudent: any = null;
 
-
   // ==========================================
   // Week
   // ==========================================
@@ -52,7 +50,6 @@ export class Reports implements OnInit {
   weekStart = '';
 
   weekEnd = '';
-
 
   // ==========================================
   // Report Data
@@ -68,7 +65,6 @@ export class Reports implements OnInit {
 
   savedReport: any = null;
 
-
   // ==========================================
   // Teacher Input
   // ==========================================
@@ -77,24 +73,19 @@ export class Reports implements OnInit {
 
   overallProgress = 'Good';
 
-
   // ==========================================
   // Loading
   // ==========================================
 
   loading = false;
 
-
   // ==========================================
   // Init
   // ==========================================
 
   ngOnInit(): void {
-
     this.loadStudents();
-
   }
-
 
   // ==========================================
   // Load Students
@@ -117,7 +108,6 @@ export class Reports implements OnInit {
             res?.data ||
             res ||
             [];
-
         },
 
         error: (error) => {
@@ -132,7 +122,6 @@ export class Reports implements OnInit {
       });
 
   }
-
 
   // ==========================================
   // Student Changed
@@ -150,7 +139,6 @@ export class Reports implements OnInit {
     this.clearReportData();
 
   }
-
 
   // ==========================================
   // Generate Weekly Report
@@ -172,7 +160,6 @@ export class Reports implements OnInit {
 
     }
 
-
     // Prevent invalid date range
 
     if (
@@ -188,9 +175,7 @@ export class Reports implements OnInit {
 
     }
 
-
     this.loading = true;
-
 
     // Clear previous data
 
@@ -204,7 +189,6 @@ export class Reports implements OnInit {
 
     this.savedReport = null;
 
-
     // Load all report sections
 
     this.loadAttendance();
@@ -217,7 +201,6 @@ export class Reports implements OnInit {
 
     this.loadSavedReport();
 
-
     // UI loading state
 
     setTimeout(() => {
@@ -227,7 +210,6 @@ export class Reports implements OnInit {
     }, 500);
 
   }
-
 
   // ==========================================
   // Attendance
@@ -248,18 +230,15 @@ export class Reports implements OnInit {
             res
           );
 
-
           const records =
             res?.records ||
             res?.data ||
             [];
 
-
           console.log(
             'ALL ATTENDANCE RECORDS:',
             records
           );
-
 
           console.log(
             'ATTENDANCE DATES:',
@@ -271,7 +250,6 @@ export class Reports implements OnInit {
             )
           );
 
-
           this.attendanceRecords =
             records.filter(
               (record: any) =>
@@ -279,7 +257,6 @@ export class Reports implements OnInit {
                   record.date
                 )
             );
-
 
           console.log(
             'FILTERED ATTENDANCE:',
@@ -303,7 +280,6 @@ export class Reports implements OnInit {
 
   }
 
-
   // ==========================================
   // Classes / Topics
   // ==========================================
@@ -321,19 +297,16 @@ export class Reports implements OnInit {
             res
           );
 
-
           const classes =
             res?.data ||
             res ||
             [];
-
 
           console.log(
             'SELECTED WEEK:',
             this.weekStart,
             this.weekEnd
           );
-
 
           console.log(
             'CLASS DATES:',
@@ -348,7 +321,6 @@ export class Reports implements OnInit {
             )
           );
 
-
           this.weeklyClasses =
             classes.filter(
               (item: any) =>
@@ -356,7 +328,6 @@ export class Reports implements OnInit {
                   item.date
                 )
             );
-
 
           console.log(
             'FILTERED WEEKLY CLASSES:',
@@ -380,7 +351,6 @@ export class Reports implements OnInit {
 
   }
 
-
   // ==========================================
   // Weekly Tests
   // ==========================================
@@ -400,12 +370,10 @@ export class Reports implements OnInit {
             res
           );
 
-
           const tests =
             res?.data ||
             res ||
             [];
-
 
           console.log(
             'TEST DATES:',
@@ -421,7 +389,6 @@ export class Reports implements OnInit {
             )
           );
 
-
           this.weeklyTests =
             tests.filter(
               (test: any) =>
@@ -429,7 +396,6 @@ export class Reports implements OnInit {
                   test.testDate
                 )
             );
-
 
           console.log(
             'FILTERED WEEKLY TESTS:',
@@ -453,7 +419,6 @@ export class Reports implements OnInit {
 
   }
 
-
   // ==========================================
   // Fees
   // ==========================================
@@ -472,7 +437,6 @@ export class Reports implements OnInit {
             'FEE FROM BACKEND:',
             res
           );
-
 
           this.fee =
             res?.data ||
@@ -495,7 +459,6 @@ export class Reports implements OnInit {
 
   }
 
-
   // ==========================================
   // Saved Teacher Report
   // ==========================================
@@ -517,18 +480,15 @@ export class Reports implements OnInit {
             res
           );
 
-
           this.savedReport =
             res?.data ||
             null;
-
 
           if (this.savedReport) {
 
             this.teacherNotes =
               this.savedReport.teacherNotes ||
               '';
-
 
             this.overallProgress =
               this.savedReport.overallProgress ||
@@ -553,7 +513,6 @@ export class Reports implements OnInit {
 
   }
 
-
   // ==========================================
   // Save Teacher Report
   // ==========================================
@@ -574,7 +533,6 @@ export class Reports implements OnInit {
 
     }
 
-
     const data = {
 
       student:
@@ -594,12 +552,10 @@ export class Reports implements OnInit {
 
     };
 
-
     console.log(
       'SAVING WEEKLY REPORT:',
       data
     );
-
 
     // ==========================================
     // Update Existing Report
@@ -629,7 +585,6 @@ export class Reports implements OnInit {
               res
             );
 
-
             this.savedReport =
               res?.data;
 
@@ -650,7 +605,6 @@ export class Reports implements OnInit {
 
     }
 
-
     // ==========================================
     // Create New Report
     // ==========================================
@@ -665,7 +619,6 @@ export class Reports implements OnInit {
             'REPORT CREATED:',
             res
           );
-
 
           this.savedReport =
             res?.data;
@@ -685,12 +638,24 @@ export class Reports implements OnInit {
 
   }
 
-
   // ==========================================
   // Generate Parent PDF
   // ==========================================
 
   generatePDF(): void {
+
+    console.log("🔥 GENERATE PDF CLICKED");
+
+    console.log(
+      "Student:",
+      this.selectedStudentId
+    );
+
+    console.log(
+      "Week:",
+      this.weekStart,
+      this.weekEnd
+    );
 
     if (
       !this.selectedStudentId
@@ -703,7 +668,6 @@ export class Reports implements OnInit {
       return;
 
     }
-
 
     if (
       !this.weekStart ||
@@ -718,7 +682,6 @@ export class Reports implements OnInit {
 
     }
 
-
     const doc =
       new jsPDF(
         'p',
@@ -726,36 +689,37 @@ export class Reports implements OnInit {
         'a4'
       );
 
-
     const pageWidth =
       doc.internal.pageSize.getWidth();
 
     const pageHeight =
       doc.internal.pageSize.getHeight();
 
-
     // ==========================================
     // Colors
     // ==========================================
 
-    const primary = [
+    // IMPORTANT:
+    // Explicit tuple typing fixes
+    // jsPDF-AutoTable fillColor TypeScript error.
+
+    const primary: [number, number, number] = [
       37,
       99,
       235
     ];
 
-    const dark = [
+    const dark: [number, number, number] = [
       15,
       23,
       42
     ];
 
-    const gray = [
+    const gray: [number, number, number] = [
       100,
       116,
       139
     ];
-
 
     // ==========================================
     // Student Information
@@ -766,18 +730,15 @@ export class Reports implements OnInit {
       this.selectedStudent?.name ||
       'Student';
 
-
     const weekStart =
       this.formatDateForPDF(
         this.weekStart
       );
 
-
     const weekEnd =
       this.formatDateForPDF(
         this.weekEnd
       );
-
 
     // ==========================================
     // Header
@@ -789,7 +750,6 @@ export class Reports implements OnInit {
       primary[2]
     );
 
-
     doc.rect(
       0,
       0,
@@ -798,22 +758,18 @@ export class Reports implements OnInit {
       'F'
     );
 
-
     doc.setTextColor(
       255,
       255,
       255
     );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(22);
-
 
     doc.text(
       'VEERUSH ACADEMY',
@@ -821,15 +777,12 @@ export class Reports implements OnInit {
       18
     );
 
-
     doc.setFontSize(10);
-
 
     doc.setFont(
       'helvetica',
       'normal'
     );
-
 
     doc.text(
       'Weekly Student Progress Report',
@@ -837,16 +790,13 @@ export class Reports implements OnInit {
       26
     );
 
-
     doc.setFontSize(11);
-
 
     doc.text(
       `${weekStart} - ${weekEnd}`,
       15,
       35
     );
-
 
     // ==========================================
     // Student Details
@@ -858,15 +808,12 @@ export class Reports implements OnInit {
       dark[2]
     );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(18);
-
 
     doc.text(
       studentName,
@@ -874,22 +821,18 @@ export class Reports implements OnInit {
       62
     );
 
-
     doc.setFont(
       'helvetica',
       'normal'
     );
 
-
     doc.setFontSize(10);
-
 
     doc.setTextColor(
       gray[0],
       gray[1],
       gray[2]
     );
-
 
     if (
       this.selectedStudent?.email
@@ -903,7 +846,6 @@ export class Reports implements OnInit {
 
     }
 
-
     if (
       this.selectedStudent?.phone
     ) {
@@ -916,13 +858,11 @@ export class Reports implements OnInit {
 
     }
 
-
     // ==========================================
     // Attendance
     // ==========================================
 
     let y = 90;
-
 
     doc.setTextColor(
       dark[0],
@@ -930,15 +870,12 @@ export class Reports implements OnInit {
       dark[2]
     );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(14);
-
 
     doc.text(
       '1. Attendance',
@@ -946,9 +883,7 @@ export class Reports implements OnInit {
       y
     );
 
-
     y += 8;
-
 
     const totalClasses =
       this.attendanceRecords.length;
@@ -967,7 +902,6 @@ export class Reports implements OnInit {
 
     const percentage =
       this.attendancePercentage;
-
 
     autoTable(
       doc,
@@ -1012,12 +946,10 @@ export class Reports implements OnInit {
       }
     );
 
-
     y =
       (doc as any)
         .lastAutoTable
         .finalY + 10;
-
 
     // ==========================================
     // Attendance Details
@@ -1034,16 +966,13 @@ export class Reports implements OnInit {
         'bold'
       );
 
-
       doc.text(
         'Attendance Details',
         15,
         y
       );
 
-
       y += 5;
-
 
       const attendanceRows =
         [...this.attendanceRecords]
@@ -1066,7 +995,6 @@ export class Reports implements OnInit {
 
             ]
           );
-
 
       autoTable(
         doc,
@@ -1108,7 +1036,6 @@ export class Reports implements OnInit {
               const status =
                 data.cell.raw;
 
-
               if (
                 status === 'Absent'
               ) {
@@ -1120,7 +1047,6 @@ export class Reports implements OnInit {
                   'bold';
 
               }
-
 
               if (
                 status === 'Late'
@@ -1134,7 +1060,6 @@ export class Reports implements OnInit {
 
               }
 
-
               if (
                 status === 'Leave'
               ) {
@@ -1143,7 +1068,6 @@ export class Reports implements OnInit {
                   [124, 58, 237];
 
               }
-
 
               if (
                 status === 'Present'
@@ -1161,14 +1085,12 @@ export class Reports implements OnInit {
         }
       );
 
-
       y =
         (doc as any)
           .lastAutoTable
           .finalY + 12;
 
     }
-
 
     // ==========================================
     // Topics Covered
@@ -1181,22 +1103,18 @@ export class Reports implements OnInit {
         60
       );
 
-
     doc.setTextColor(
       dark[0],
       dark[1],
       dark[2]
     );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(14);
-
 
     doc.text(
       '2. Topics Covered',
@@ -1204,9 +1122,7 @@ export class Reports implements OnInit {
       y
     );
 
-
     y += 7;
-
 
     if (
       this.topicsCovered.length > 0
@@ -1231,7 +1147,6 @@ export class Reports implements OnInit {
 
           ]
         );
-
 
       autoTable(
         doc,
@@ -1265,7 +1180,6 @@ export class Reports implements OnInit {
         }
       );
 
-
       y =
         (doc as any)
           .lastAutoTable
@@ -1280,9 +1194,7 @@ export class Reports implements OnInit {
         'normal'
       );
 
-
       doc.setFontSize(10);
-
 
       doc.setTextColor(
         gray[0],
@@ -1290,18 +1202,15 @@ export class Reports implements OnInit {
         gray[2]
       );
 
-
       doc.text(
         'No classes or topics were recorded during this week.',
         15,
         y
       );
 
-
       y += 12;
 
     }
-
 
     // ==========================================
     // Weekly Test Performance
@@ -1314,22 +1223,18 @@ export class Reports implements OnInit {
         60
       );
 
-
     doc.setTextColor(
       dark[0],
       dark[1],
       dark[2]
     );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(14);
-
 
     doc.text(
       '3. Weekly Test Performance',
@@ -1337,9 +1242,7 @@ export class Reports implements OnInit {
       y
     );
 
-
     y += 7;
-
 
     if (
       this.weeklyTests.length > 0
@@ -1365,7 +1268,6 @@ export class Reports implements OnInit {
 
           ]
         );
-
 
       autoTable(
         doc,
@@ -1400,7 +1302,6 @@ export class Reports implements OnInit {
         }
       );
 
-
       y =
         (doc as any)
           .lastAutoTable
@@ -1415,9 +1316,7 @@ export class Reports implements OnInit {
         'normal'
       );
 
-
       doc.setFontSize(10);
-
 
       doc.setTextColor(
         gray[0],
@@ -1425,18 +1324,15 @@ export class Reports implements OnInit {
         gray[2]
       );
 
-
       doc.text(
         'No weekly tests were conducted during this period.',
         15,
         y
       );
 
-
       y += 12;
 
     }
-
 
     // ==========================================
     // Fee Status
@@ -1449,22 +1345,18 @@ export class Reports implements OnInit {
         55
       );
 
-
     doc.setTextColor(
       dark[0],
       dark[1],
       dark[2]
     );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(14);
-
 
     doc.text(
       '4. Fee Status',
@@ -1472,9 +1364,7 @@ export class Reports implements OnInit {
       y
     );
 
-
     y += 7;
-
 
     if (this.fee) {
 
@@ -1527,7 +1417,6 @@ export class Reports implements OnInit {
         }
       );
 
-
       y =
         (doc as any)
           .lastAutoTable
@@ -1542,9 +1431,7 @@ export class Reports implements OnInit {
         'normal'
       );
 
-
       doc.setFontSize(10);
-
 
       doc.setTextColor(
         gray[0],
@@ -1552,18 +1439,15 @@ export class Reports implements OnInit {
         gray[2]
       );
 
-
       doc.text(
         'No fee record found.',
         15,
         y
       );
 
-
       y += 12;
 
     }
-
 
     // ==========================================
     // Teacher's Observation
@@ -1576,22 +1460,18 @@ export class Reports implements OnInit {
         70
       );
 
-
     doc.setTextColor(
       dark[0],
       dark[1],
       dark[2]
     );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(14);
-
 
     doc.text(
       "5. Teacher's Observation",
@@ -1599,23 +1479,18 @@ export class Reports implements OnInit {
       y
     );
 
-
     y += 8;
-
 
     const notes =
       this.teacherNotes?.trim() ||
       'No teacher observation added.';
-
 
     doc.setFont(
       'helvetica',
       'normal'
     );
 
-
     doc.setFontSize(10);
-
 
     const noteLines =
       doc.splitTextToSize(
@@ -1623,18 +1498,15 @@ export class Reports implements OnInit {
         pageWidth - 30
       );
 
-
     doc.text(
       noteLines,
       15,
       y
     );
 
-
     y +=
       noteLines.length * 5 +
       10;
-
 
     // ==========================================
     // Overall Progress
@@ -1647,15 +1519,12 @@ export class Reports implements OnInit {
         30
       );
 
-
     doc.setFont(
       'helvetica',
       'bold'
     );
 
-
     doc.setFontSize(11);
-
 
     doc.text(
       `Overall Progress: ${this.overallProgress}`,
@@ -1663,14 +1532,12 @@ export class Reports implements OnInit {
       y
     );
 
-
     // ==========================================
     // Footer
     // ==========================================
 
     const totalPages =
       doc.getNumberOfPages();
-
 
     for (
       let page = 1;
@@ -1680,15 +1547,12 @@ export class Reports implements OnInit {
 
       doc.setPage(page);
 
-
       doc.setFont(
         'helvetica',
         'normal'
       );
 
-
       doc.setFontSize(8);
-
 
       doc.setTextColor(
         100,
@@ -1696,13 +1560,11 @@ export class Reports implements OnInit {
         139
       );
 
-
       doc.text(
         'Veerush Academy • Weekly Student Report',
         15,
         pageHeight - 10
       );
-
 
       doc.text(
         `Page ${page} of ${totalPages}`,
@@ -1711,7 +1573,6 @@ export class Reports implements OnInit {
       );
 
     }
-
 
     // ==========================================
     // Download PDF
@@ -1724,13 +1585,11 @@ export class Reports implements OnInit {
           '_'
         );
 
-
     doc.save(
       `Veerush_Weekly_Report_${safeName}_${this.weekStart}.pdf`
     );
 
   }
-
 
   // ==========================================
   // PDF Date Formatter
@@ -1743,7 +1602,6 @@ export class Reports implements OnInit {
     if (!date) {
       return '-';
     }
-
 
     // Already YYYY-MM-DD
 
@@ -1758,10 +1616,8 @@ export class Reports implements OnInit {
 
     }
 
-
     const d =
       new Date(date);
-
 
     if (
       isNaN(
@@ -1773,7 +1629,6 @@ export class Reports implements OnInit {
 
     }
 
-
     const day =
       String(
         d.getUTCDate()
@@ -1781,7 +1636,6 @@ export class Reports implements OnInit {
         2,
         '0'
       );
-
 
     const month =
       String(
@@ -1791,15 +1645,12 @@ export class Reports implements OnInit {
         '0'
       );
 
-
     const year =
       d.getUTCFullYear();
-
 
     return `${day}/${month}/${year}`;
 
   }
-
 
   // ==========================================
   // PDF Page Safety
@@ -1814,7 +1665,6 @@ export class Reports implements OnInit {
     const pageHeight =
       doc.internal.pageSize.getHeight();
 
-
     if (
       y + requiredSpace >
       pageHeight - 20
@@ -1826,11 +1676,9 @@ export class Reports implements OnInit {
 
     }
 
-
     return y;
 
   }
-
 
   // ==========================================
   // Date Helper
@@ -1850,7 +1698,6 @@ export class Reports implements OnInit {
 
     }
 
-
     const getDateOnly =
       (
         value: string
@@ -1859,7 +1706,6 @@ export class Reports implements OnInit {
         if (!value) {
           return '';
         }
-
 
         // If backend already gives YYYY-MM-DD
 
@@ -1871,10 +1717,8 @@ export class Reports implements OnInit {
 
         }
 
-
         const d =
           new Date(value);
-
 
         if (
           isNaN(
@@ -1886,12 +1730,10 @@ export class Reports implements OnInit {
 
         }
 
-
         // MongoDB dates are UTC
 
         const year =
           d.getUTCFullYear();
-
 
         const month =
           String(
@@ -1901,7 +1743,6 @@ export class Reports implements OnInit {
             '0'
           );
 
-
         const day =
           String(
             d.getUTCDate()
@@ -1910,15 +1751,12 @@ export class Reports implements OnInit {
             '0'
           );
 
-
         return `${year}-${month}-${day}`;
 
       };
 
-
     const currentDate =
       getDateOnly(date);
-
 
     return (
       currentDate >= this.weekStart &&
@@ -1926,7 +1764,6 @@ export class Reports implements OnInit {
     );
 
   }
-
 
   // ==========================================
   // Attendance Helpers
@@ -1944,7 +1781,6 @@ export class Reports implements OnInit {
 
   }
 
-
   get absentCount(): number {
 
     return this.attendanceRecords
@@ -1956,7 +1792,6 @@ export class Reports implements OnInit {
       .length;
 
   }
-
 
   get lateCount(): number {
 
@@ -1970,7 +1805,6 @@ export class Reports implements OnInit {
 
   }
 
-
   get leaveCount(): number {
 
     return this.attendanceRecords
@@ -1983,7 +1817,6 @@ export class Reports implements OnInit {
 
   }
 
-
   get attendancePercentage(): number {
 
     if (
@@ -1993,7 +1826,6 @@ export class Reports implements OnInit {
       return 0;
 
     }
-
 
     return Math.round(
 
@@ -2005,7 +1837,6 @@ export class Reports implements OnInit {
     );
 
   }
-
 
   // ==========================================
   // Test Percentage
@@ -2024,7 +1855,6 @@ export class Reports implements OnInit {
 
     }
 
-
     return Math.round(
 
       (
@@ -2035,7 +1865,6 @@ export class Reports implements OnInit {
     );
 
   }
-
 
   // ==========================================
   // Topics
@@ -2050,7 +1879,6 @@ export class Reports implements OnInit {
       );
 
   }
-
 
   // ==========================================
   // Clear
