@@ -528,36 +528,39 @@
     </div>
 
 
+    
+
     <!-- ========================================== -->
-    <!-- PDF Placeholder -->
-    <!-- ========================================== -->
+<!-- Parent PDF Report -->
+<!-- ========================================== -->
 
-    <div
-      class="flex flex-col justify-between gap-4 rounded-2xl border border-blue-100 bg-blue-50 p-6 md:flex-row md:items-center">
+<div
+  class="flex flex-col justify-between gap-4 rounded-2xl border border-blue-100 bg-blue-50 p-6 md:flex-row md:items-center"
+>
 
-      <div>
+  <div>
 
-        <h2 class="font-bold text-slate-800">
-          📄 Parent Report
-        </h2>
+    <h2 class="font-bold text-slate-800">
+      📄 Parent Report
+    </h2>
 
-        <p class="mt-1 text-sm text-slate-600">
-          Generate a professional PDF report for the student's parents.
-        </p>
+    <p class="mt-1 text-sm text-slate-600">
+      Generate a professional PDF report for the student's parents.
+    </p>
 
-      </div>
+  </div>
 
+  <button
+    type="button"
+    (click)="generatePDF()"
+    class="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
+  >
 
-      <button
-  type="button"
-  (click)="generatePDF()"
-  class="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md">
+    📄 Generate PDF
 
-  📄 Generate PDF
+  </button>
 
-</button>
-
-    </div>
+</div>
 
   </div>
 
