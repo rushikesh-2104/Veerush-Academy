@@ -1,13 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { Attendance } from '../../services/attendanceService';
 import { ClassService } from '../../services/classService';
 import { WeeklyTestService } from '../../services/weekly-test-service';
 import { FeeService } from '../../services/feeService';
 import { WeeklyReportService } from '../../services/weekly-report';
-
-
 
 @Component({
   selector: 'app-reports',
@@ -21,11 +20,16 @@ import { WeeklyReportService } from '../../services/weekly-report';
 })
 export class Reports implements OnInit {
 
+  // ==========================================
+  // Services
+  // ==========================================
+
   private attendanceService = inject(Attendance);
   private classService = inject(ClassService);
   private weeklyTestService = inject(WeeklyTestService);
   private feeService = inject(FeeService);
   private reportService = inject(WeeklyReportService);
+
 
   // ==========================================
   // Students
@@ -95,10 +99,16 @@ export class Reports implements OnInit {
 
   loadStudents(): void {
 
-    this.attendanceService.getStudents()
+    this.attendanceService
+      .getStudents()
       .subscribe({
 
         next: (res: any) => {
+
+          console.log(
+            'STUDENTS FROM BACKEND:',
+            res
+          );
 
           this.students =
             res?.data ||
@@ -130,7 +140,8 @@ export class Reports implements OnInit {
     this.selectedStudent =
       this.students.find(
         student =>
-          student._id === this.selectedStudentId
+          student._id ===
+          this.selectedStudentId
       );
 
     this.clearReportData();
@@ -150,17 +161,61 @@ export class Reports implements OnInit {
       !this.weekEnd
     ) {
 
+      console.warn(
+        'Please select student, week start and week end'
+      );
+
       return;
 
     }
 
+
+    // Prevent invalid date range
+
+    if (
+      this.weekStart >
+      this.weekEnd
+    ) {
+
+      console.warn(
+        'Week start cannot be after week end'
+      );
+
+      return;
+
+    }
+
+
     this.loading = true;
 
+
+    // Clear previous data
+
+    this.attendanceRecords = [];
+
+    this.weeklyClasses = [];
+
+    this.weeklyTests = [];
+
+    this.fee = null;
+
+    this.savedReport = null;
+
+
+    // Load all report sections
+
     this.loadAttendance();
+
     this.loadClasses();
+
     this.loadTests();
+
     this.loadFee();
+
     this.loadSavedReport();
+
+
+    // UI loading state
 
     setTimeout(() => {
 
@@ -185,8 +240,34 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
+          console.log(
+            'ATTENDANCE FROM BACKEND:',
+            res
+          );
+
+
           const records =
-            res?.records || [];
+            res?.records ||
+            res?.data ||
+            [];
+
+
+          console.log(
+            'ALL ATTENDANCE RECORDS:',
+            records
+          );
+
+
+          console.log(
+            'ATTENDANCE DATES:',
+            records.map(
+              (record: any) => ({
+                date: record.date,
+                status: record.status
+              })
+            )
+          );
+
 
           this.attendanceRecords =
             records.filter(
@@ -196,6 +277,12 @@ export class Reports implements OnInit {
                 )
             );
 
+
+          console.log(
+            'FILTERED ATTENDANCE:',
+            this.attendanceRecords
+          );
+
         },
 
         error: (error) => {
@@ -204,6 +291,8 @@ export class Reports implements OnInit {
             'Attendance error',
             error
           );
+
+          this.attendanceRecords = [];
 
         }
 
@@ -224,8 +313,38 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
+          console.log(
+            'ALL CLASSES FROM BACKEND:',
+            res
+          );
+
+
           const classes =
-            res?.data || [];
+            res?.data ||
+            res ||
+            [];
+
+
+          console.log(
+            'SELECTED WEEK:',
+            this.weekStart,
+            this.weekEnd
+          );
+
+
+          console.log(
+            'CLASS DATES:',
+            classes.map(
+              (item: any) => ({
+                date: item.date,
+                subject: item.subject,
+                topic: item.topic,
+                course: item.course,
+                standard: item.standard
+              })
+            )
+          );
+
 
           this.weeklyClasses =
             classes.filter(
@@ -235,6 +354,12 @@ export class Reports implements OnInit {
                 )
             );
 
+
+          console.log(
+            'FILTERED WEEKLY CLASSES:',
+            this.weeklyClasses
+          );
+
         },
 
         error: (error) => {
@@ -243,6 +368,8 @@ export class Reports implements OnInit {
             'Classes error',
             error
           );
+
+          this.weeklyClasses = [];
 
         }
 
@@ -265,8 +392,32 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
+          console.log(
+            'WEEKLY TESTS FROM BACKEND:',
+            res
+          );
+
+
           const tests =
-            res?.data || [];
+            res?.data ||
+            res ||
+            [];
+
+
+          console.log(
+            'TEST DATES:',
+            tests.map(
+              (test: any) => ({
+                testDate: test.testDate,
+                title: test.title,
+                obtainedMarks:
+                  test.obtainedMarks,
+                totalMarks:
+                  test.totalMarks
+              })
+            )
+          );
+
 
           this.weeklyTests =
             tests.filter(
@@ -276,6 +427,12 @@ export class Reports implements OnInit {
                 )
             );
 
+
+          console.log(
+            'FILTERED WEEKLY TESTS:',
+            this.weeklyTests
+          );
+
         },
 
         error: (error) => {
@@ -284,6 +441,8 @@ export class Reports implements OnInit {
             'Tests error',
             error
           );
+
+          this.weeklyTests = [];
 
         }
 
@@ -306,8 +465,15 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
+          console.log(
+            'FEE FROM BACKEND:',
+            res
+          );
+
+
           this.fee =
-            res?.data || null;
+            res?.data ||
+            null;
 
         },
 
@@ -317,6 +483,8 @@ export class Reports implements OnInit {
             'Fee error',
             error
           );
+
+          this.fee = null;
 
         }
 
@@ -341,13 +509,23 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
+          console.log(
+            'SAVED WEEKLY REPORT:',
+            res
+          );
+
+
           this.savedReport =
-            res?.data || null;
+            res?.data ||
+            null;
+
 
           if (this.savedReport) {
 
             this.teacherNotes =
-              this.savedReport.teacherNotes || '';
+              this.savedReport.teacherNotes ||
+              '';
+
 
             this.overallProgress =
               this.savedReport.overallProgress ||
@@ -364,6 +542,8 @@ export class Reports implements OnInit {
             error
           );
 
+          this.savedReport = null;
+
         }
 
       });
@@ -376,6 +556,21 @@ export class Reports implements OnInit {
   // ==========================================
 
   saveReport(): void {
+
+    if (
+      !this.selectedStudentId ||
+      !this.weekStart ||
+      !this.weekEnd
+    ) {
+
+      console.warn(
+        'Cannot save report without student and week'
+      );
+
+      return;
+
+    }
+
 
     const data = {
 
@@ -397,7 +592,19 @@ export class Reports implements OnInit {
     };
 
 
-    if (this.savedReport?._id) {
+    console.log(
+      'SAVING WEEKLY REPORT:',
+      data
+    );
+
+
+    // ==========================================
+    // Update Existing Report
+    // ==========================================
+
+    if (
+      this.savedReport?._id
+    ) {
 
       this.reportService
         .updateReport(
@@ -412,7 +619,13 @@ export class Reports implements OnInit {
         )
         .subscribe({
 
-          next: (res) => {
+          next: (res: any) => {
+
+            console.log(
+              'REPORT UPDATED:',
+              res
+            );
+
 
             this.savedReport =
               res?.data;
@@ -435,11 +648,21 @@ export class Reports implements OnInit {
     }
 
 
+    // ==========================================
+    // Create New Report
+    // ==========================================
+
     this.reportService
       .createReport(data)
       .subscribe({
 
-        next: (res) => {
+        next: (res: any) => {
+
+          console.log(
+            'REPORT CREATED:',
+            res
+          );
+
 
           this.savedReport =
             res?.data;
@@ -468,27 +691,82 @@ export class Reports implements OnInit {
     date: string
   ): boolean {
 
-    const current =
-      new Date(date);
+    if (
+      !date ||
+      !this.weekStart ||
+      !this.weekEnd
+    ) {
 
-    const start =
-      new Date(this.weekStart);
+      return false;
 
-    const end =
-      new Date(this.weekEnd);
+    }
 
-    start.setHours(0, 0, 0, 0);
 
-    end.setHours(
-      23,
-      59,
-      59,
-      999
-    );
+    // ------------------------------------------
+    // Convert date into YYYY-MM-DD
+    // ------------------------------------------
+
+    const getDateOnly = (
+      value: string
+    ): string => {
+
+      const d =
+        new Date(value);
+
+
+      if (
+        isNaN(
+          d.getTime()
+        )
+      ) {
+
+        return '';
+
+      }
+
+
+      const year =
+        d.getFullYear();
+
+
+      const month =
+        String(
+          d.getMonth() + 1
+        ).padStart(
+          2,
+          '0'
+        );
+
+
+      const day =
+        String(
+          d.getDate()
+        ).padStart(
+          2,
+          '0'
+        );
+
+
+      return `${year}-${month}-${day}`;
+
+    };
+
+
+    const currentDate =
+      getDateOnly(date);
+
+
+    const startDate =
+      this.weekStart;
+
+
+    const endDate =
+      this.weekEnd;
+
 
     return (
-      current >= start &&
-      current <= end
+      currentDate >= startDate &&
+      currentDate <= endDate
     );
 
   }
@@ -502,7 +780,9 @@ export class Reports implements OnInit {
 
     return this.attendanceRecords
       .filter(
-        x => x.status === 'Present'
+        x =>
+          x.status ===
+          'Present'
       )
       .length;
 
@@ -513,7 +793,35 @@ export class Reports implements OnInit {
 
     return this.attendanceRecords
       .filter(
-        x => x.status === 'Absent'
+        x =>
+          x.status ===
+          'Absent'
+      )
+      .length;
+
+  }
+
+
+  get lateCount(): number {
+
+    return this.attendanceRecords
+      .filter(
+        x =>
+          x.status ===
+          'Late'
+      )
+      .length;
+
+  }
+
+
+  get leaveCount(): number {
+
+    return this.attendanceRecords
+      .filter(
+        x =>
+          x.status ===
+          'Leave'
       )
       .length;
 
@@ -530,11 +838,14 @@ export class Reports implements OnInit {
 
     }
 
+
     return Math.round(
+
       (
         this.presentCount /
         this.attendanceRecords.length
       ) * 100
+
     );
 
   }
@@ -548,18 +859,39 @@ export class Reports implements OnInit {
     test: any
   ): number {
 
-    if (!test.totalMarks) {
+    if (
+      !test ||
+      !test.totalMarks
+    ) {
 
       return 0;
 
     }
 
+
     return Math.round(
+
       (
         test.obtainedMarks /
         test.totalMarks
       ) * 100
+
     );
+
+  }
+
+
+  // ==========================================
+  // Topics
+  // ==========================================
+
+  get topicsCovered(): any[] {
+
+    return this.weeklyClasses
+      .filter(
+        (item: any) =>
+          item.topic
+      );
 
   }
 
