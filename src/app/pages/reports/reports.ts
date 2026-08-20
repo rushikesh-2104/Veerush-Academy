@@ -6,7 +6,6 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 import { Attendance } from '../../services/attendanceService';
-import { ClassService } from '../../services/classService';
 import { WeeklyTestService } from '../../services/weekly-test-service';
 import { FeeService } from '../../services/feeService';
 import { WeeklyReportService } from '../../services/weekly-report';
@@ -28,7 +27,6 @@ export class Reports implements OnInit {
   // ==========================================
 
   private attendanceService = inject(Attendance);
-  private classService = inject(ClassService);
   private weeklyTestService = inject(WeeklyTestService);
   private feeService = inject(FeeService);
   private reportService = inject(WeeklyReportService);
@@ -56,8 +54,6 @@ export class Reports implements OnInit {
   // ==========================================
 
   attendanceRecords: any[] = [];
-
-  weeklyClasses: any[] = [];
 
   weeklyTests: any[] = [];
 
@@ -99,15 +95,11 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
-          console.log(
-            'STUDENTS FROM BACKEND:',
-            res
-          );
-
           this.students =
             res?.data ||
             res ||
             [];
+
         },
 
         error: (error) => {
@@ -116,6 +108,8 @@ export class Reports implements OnInit {
             'Failed to load students',
             error
           );
+
+          this.students = [];
 
         }
 
@@ -134,7 +128,7 @@ export class Reports implements OnInit {
         student =>
           student._id ===
           this.selectedStudentId
-      );
+      ) || null;
 
     this.clearReportData();
 
@@ -181,19 +175,15 @@ export class Reports implements OnInit {
 
     this.attendanceRecords = [];
 
-    this.weeklyClasses = [];
-
     this.weeklyTests = [];
 
     this.fee = null;
 
     this.savedReport = null;
 
-    // Load all report sections
+    // Load report sections
 
     this.loadAttendance();
-
-    this.loadClasses();
 
     this.loadTests();
 
@@ -225,30 +215,10 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
-          console.log(
-            'ATTENDANCE FROM BACKEND:',
-            res
-          );
-
           const records =
             res?.records ||
             res?.data ||
             [];
-
-          console.log(
-            'ALL ATTENDANCE RECORDS:',
-            records
-          );
-
-          console.log(
-            'ATTENDANCE DATES:',
-            records.map(
-              (record: any) => ({
-                date: record.date,
-                status: record.status
-              })
-            )
-          );
 
           this.attendanceRecords =
             records.filter(
@@ -257,11 +227,6 @@ export class Reports implements OnInit {
                   record.date
                 )
             );
-
-          console.log(
-            'FILTERED ATTENDANCE:',
-            this.attendanceRecords
-          );
 
         },
 
@@ -273,77 +238,6 @@ export class Reports implements OnInit {
           );
 
           this.attendanceRecords = [];
-
-        }
-
-      });
-
-  }
-
-  // ==========================================
-  // Classes / Topics
-  // ==========================================
-
-  private loadClasses(): void {
-
-    this.classService
-      .getClasses()
-      .subscribe({
-
-        next: (res: any) => {
-
-          console.log(
-            'ALL CLASSES FROM BACKEND:',
-            res
-          );
-
-          const classes =
-            res?.data ||
-            res ||
-            [];
-
-          console.log(
-            'SELECTED WEEK:',
-            this.weekStart,
-            this.weekEnd
-          );
-
-          console.log(
-            'CLASS DATES:',
-            classes.map(
-              (item: any) => ({
-                date: item.date,
-                subject: item.subject,
-                topic: item.topic,
-                course: item.course,
-                standard: item.standard
-              })
-            )
-          );
-
-          this.weeklyClasses =
-            classes.filter(
-              (item: any) =>
-                this.isDateInSelectedWeek(
-                  item.date
-                )
-            );
-
-          console.log(
-            'FILTERED WEEKLY CLASSES:',
-            this.weeklyClasses
-          );
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Classes error',
-            error
-          );
-
-          this.weeklyClasses = [];
 
         }
 
@@ -365,29 +259,10 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
-          console.log(
-            'WEEKLY TESTS FROM BACKEND:',
-            res
-          );
-
           const tests =
             res?.data ||
             res ||
             [];
-
-          console.log(
-            'TEST DATES:',
-            tests.map(
-              (test: any) => ({
-                testDate: test.testDate,
-                title: test.title,
-                obtainedMarks:
-                  test.obtainedMarks,
-                totalMarks:
-                  test.totalMarks
-              })
-            )
-          );
 
           this.weeklyTests =
             tests.filter(
@@ -396,11 +271,6 @@ export class Reports implements OnInit {
                   test.testDate
                 )
             );
-
-          console.log(
-            'FILTERED WEEKLY TESTS:',
-            this.weeklyTests
-          );
 
         },
 
@@ -432,11 +302,6 @@ export class Reports implements OnInit {
       .subscribe({
 
         next: (res: any) => {
-
-          console.log(
-            'FEE FROM BACKEND:',
-            res
-          );
 
           this.fee =
             res?.data ||
@@ -474,11 +339,6 @@ export class Reports implements OnInit {
       .subscribe({
 
         next: (res: any) => {
-
-          console.log(
-            'SAVED WEEKLY REPORT:',
-            res
-          );
 
           this.savedReport =
             res?.data ||
@@ -552,11 +412,6 @@ export class Reports implements OnInit {
 
     };
 
-    console.log(
-      'SAVING WEEKLY REPORT:',
-      data
-    );
-
     // ==========================================
     // Update Existing Report
     // ==========================================
@@ -579,11 +434,6 @@ export class Reports implements OnInit {
         .subscribe({
 
           next: (res: any) => {
-
-            console.log(
-              'REPORT UPDATED:',
-              res
-            );
 
             this.savedReport =
               res?.data;
@@ -615,11 +465,6 @@ export class Reports implements OnInit {
 
         next: (res: any) => {
 
-          console.log(
-            'REPORT CREATED:',
-            res
-          );
-
           this.savedReport =
             res?.data;
 
@@ -643,19 +488,6 @@ export class Reports implements OnInit {
   // ==========================================
 
   generatePDF(): void {
-
-    console.log("🔥 GENERATE PDF CLICKED");
-
-    console.log(
-      "Student:",
-      this.selectedStudentId
-    );
-
-    console.log(
-      "Week:",
-      this.weekStart,
-      this.weekEnd
-    );
 
     if (
       !this.selectedStudentId
@@ -698,10 +530,6 @@ export class Reports implements OnInit {
     // ==========================================
     // Colors
     // ==========================================
-
-    // IMPORTANT:
-    // Explicit tuple typing fixes
-    // jsPDF-AutoTable fillColor TypeScript error.
 
     const primary: [number, number, number] = [
       37,
@@ -859,7 +687,7 @@ export class Reports implements OnInit {
     }
 
     // ==========================================
-    // Attendance
+    // 1. Attendance
     // ==========================================
 
     let y = 90;
@@ -999,7 +827,6 @@ export class Reports implements OnInit {
       autoTable(
         doc,
         {
-
           startY: y,
 
           head: [
@@ -1093,7 +920,7 @@ export class Reports implements OnInit {
     }
 
     // ==========================================
-    // Topics Covered
+    // 2. Weekly Test Performance
     // ==========================================
 
     y =
@@ -1117,127 +944,7 @@ export class Reports implements OnInit {
     doc.setFontSize(14);
 
     doc.text(
-      '2. Topics Covered',
-      15,
-      y
-    );
-
-    y += 7;
-
-    if (
-      this.topicsCovered.length > 0
-    ) {
-
-      const topicRows =
-        this.topicsCovered.map(
-          (item: any) => [
-
-            this.formatDateForPDF(
-              item.date
-            ),
-
-            item.subject ||
-            '-',
-
-            item.topic ||
-            '-',
-
-            item.teacher ||
-            '-'
-
-          ]
-        );
-
-      autoTable(
-        doc,
-        {
-
-          startY: y,
-
-          head: [
-            [
-              'Date',
-              'Subject',
-              'Topic',
-              'Teacher'
-            ]
-          ],
-
-          body: topicRows,
-
-          theme: 'grid',
-
-          headStyles: {
-            fillColor: primary,
-            textColor: 255
-          },
-
-          styles: {
-            fontSize: 8.5,
-            cellPadding: 3
-          }
-
-        }
-      );
-
-      y =
-        (doc as any)
-          .lastAutoTable
-          .finalY + 12;
-
-    }
-
-    else {
-
-      doc.setFont(
-        'helvetica',
-        'normal'
-      );
-
-      doc.setFontSize(10);
-
-      doc.setTextColor(
-        gray[0],
-        gray[1],
-        gray[2]
-      );
-
-      doc.text(
-        'No classes or topics were recorded during this week.',
-        15,
-        y
-      );
-
-      y += 12;
-
-    }
-
-    // ==========================================
-    // Weekly Test Performance
-    // ==========================================
-
-    y =
-      this.ensurePageSpace(
-        doc,
-        y,
-        60
-      );
-
-    doc.setTextColor(
-      dark[0],
-      dark[1],
-      dark[2]
-    );
-
-    doc.setFont(
-      'helvetica',
-      'bold'
-    );
-
-    doc.setFontSize(14);
-
-    doc.text(
-      '3. Weekly Test Performance',
+      '2. Weekly Test Performance',
       15,
       y
     );
@@ -1272,7 +979,6 @@ export class Reports implements OnInit {
       autoTable(
         doc,
         {
-
           startY: y,
 
           head: [
@@ -1335,7 +1041,7 @@ export class Reports implements OnInit {
     }
 
     // ==========================================
-    // Fee Status
+    // 3. Fee Status
     // ==========================================
 
     y =
@@ -1359,7 +1065,7 @@ export class Reports implements OnInit {
     doc.setFontSize(14);
 
     doc.text(
-      '4. Fee Status',
+      '3. Fee Status',
       15,
       y
     );
@@ -1371,7 +1077,6 @@ export class Reports implements OnInit {
       autoTable(
         doc,
         {
-
           startY: y,
 
           head: [
@@ -1450,7 +1155,7 @@ export class Reports implements OnInit {
     }
 
     // ==========================================
-    // Teacher's Observation
+    // 4. Teacher's Observation
     // ==========================================
 
     y =
@@ -1474,7 +1179,7 @@ export class Reports implements OnInit {
     doc.setFontSize(14);
 
     doc.text(
-      "5. Teacher's Observation",
+      "4. Teacher's Observation",
       15,
       y
     );
@@ -1867,28 +1572,12 @@ export class Reports implements OnInit {
   }
 
   // ==========================================
-  // Topics
-  // ==========================================
-
-  get topicsCovered(): any[] {
-
-    return this.weeklyClasses
-      .filter(
-        (item: any) =>
-          item.topic
-      );
-
-  }
-
-  // ==========================================
   // Clear
   // ==========================================
 
   private clearReportData(): void {
 
     this.attendanceRecords = [];
-
-    this.weeklyClasses = [];
 
     this.weeklyTests = [];
 
