@@ -21,6 +21,7 @@ import { Test } from './pages/test/test';
 import { Announcement } from './pages/accouncement/announcement';
 
 import { authGuard } from './guards/auth-guard';
+import { Reports } from './pages/reports/reports';
 
 export const routes: Routes = [
 
@@ -150,6 +151,15 @@ export const routes: Routes = [
       role: 'STUDENT'
     }
   },
+
+  {
+  path: 'reports',
+  component: Reports,
+  canActivate: [authGuard],
+  data: {
+    role: 'ADMIN'
+  }
+},
 
 
   // ==========================================

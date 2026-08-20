@@ -1,0 +1,563 @@
+<div class="min-h-screen bg-slate-50 p-6">
+
+  <!-- ========================================== -->
+  <!-- Header -->
+  <!-- ========================================== -->
+
+  <div class="mb-8">
+
+    <p class="text-sm font-semibold text-blue-600">
+      VEERUSH ACADEMY
+    </p>
+
+    <h1 class="mt-1 text-3xl font-bold text-slate-800">
+      Weekly Progress Report
+    </h1>
+
+    <p class="mt-2 text-slate-500">
+      Prepare a detailed weekly report for parents.
+    </p>
+
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- Filters -->
+  <!-- ========================================== -->
+
+  <div
+    class="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+
+    <div class="grid gap-5 md:grid-cols-3">
+
+      <!-- Student -->
+
+      <div>
+
+        <label class="mb-2 block text-sm font-semibold text-slate-700">
+          Student
+        </label>
+
+        <select
+          [(ngModel)]="selectedStudentId"
+          (change)="onStudentChange()"
+          class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-blue-500">
+
+          <option value="">
+            Select Student
+          </option>
+
+          <option
+            *ngFor="let student of students"
+            [value]="student._id">
+
+            {{ student.fullName }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- Week Start -->
+
+      <div>
+
+        <label class="mb-2 block text-sm font-semibold text-slate-700">
+          Week Start
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="weekStart"
+          class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+        />
+
+      </div>
+
+
+      <!-- Week End -->
+
+      <div>
+
+        <label class="mb-2 block text-sm font-semibold text-slate-700">
+          Week End
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="weekEnd"
+          class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+        />
+
+      </div>
+
+    </div>
+
+
+    <button
+      (click)="generateReport()"
+      [disabled]="
+        !selectedStudentId ||
+        !weekStart ||
+        !weekEnd
+      "
+      class="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
+
+      📊 Generate Weekly Report
+
+    </button>
+
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- Report -->
+  <!-- ========================================== -->
+
+  <div
+    *ngIf="selectedStudentId && weekStart && weekEnd"
+    class="space-y-6">
+
+
+    <!-- Student Header -->
+
+    <div
+      class="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white shadow-lg">
+
+      <p class="text-sm opacity-80">
+        WEEKLY STUDENT REPORT
+      </p>
+
+      <h2 class="mt-1 text-3xl font-bold">
+        {{ selectedStudent?.fullName || 'Student' }}
+      </h2>
+
+      <p class="mt-2 text-blue-100">
+        {{ weekStart | date:'dd MMM yyyy' }}
+        -
+        {{ weekEnd | date:'dd MMM yyyy' }}
+      </p>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- Attendance -->
+    <!-- ========================================== -->
+
+    <div
+      class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <div class="mb-5 flex items-center justify-between">
+
+        <div>
+
+          <h2 class="text-xl font-bold text-slate-800">
+            🗓️ Attendance
+          </h2>
+
+          <p class="text-sm text-slate-500">
+            Weekly attendance performance
+          </p>
+
+        </div>
+
+        <div class="text-right">
+
+          <p class="text-3xl font-bold text-blue-600">
+            {{ attendancePercentage }}%
+          </p>
+
+          <p class="text-xs text-slate-500">
+            {{ presentCount }} Present /
+            {{ attendanceRecords.length }} Classes
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="space-y-3">
+
+        <div
+          *ngFor="let record of attendanceRecords"
+          class="flex items-center justify-between rounded-xl border p-4"
+          [ngClass]="{
+            'border-green-100 bg-green-50':
+              record.status === 'Present',
+
+            'border-red-200 bg-red-50':
+              record.status === 'Absent',
+
+            'border-orange-100 bg-orange-50':
+              record.status === 'Late',
+
+            'border-yellow-100 bg-yellow-50':
+              record.status === 'Leave'
+          }">
+
+          <div>
+
+            <p class="font-semibold text-slate-800">
+              {{ record.date | date:'dd MMM yyyy' }}
+            </p>
+
+            <p class="text-xs text-slate-500">
+              {{ record.remarks || 'No remarks' }}
+            </p>
+
+          </div>
+
+          <span
+            class="rounded-full px-3 py-1 text-xs font-bold"
+            [ngClass]="{
+              'bg-green-100 text-green-700':
+                record.status === 'Present',
+
+              'bg-red-100 text-red-700':
+                record.status === 'Absent',
+
+              'bg-orange-100 text-orange-700':
+                record.status === 'Late',
+
+              'bg-yellow-100 text-yellow-700':
+                record.status === 'Leave'
+            }">
+
+            {{ record.status }}
+
+          </span>
+
+        </div>
+
+
+        <p
+          *ngIf="attendanceRecords.length === 0"
+          class="rounded-xl bg-slate-50 p-5 text-center text-slate-500">
+
+          No attendance records found for this week.
+
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- Topics -->
+    <!-- ========================================== -->
+
+    <div
+      class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <h2 class="text-xl font-bold text-slate-800">
+        📚 Topics Covered
+      </h2>
+
+      <p class="mt-1 text-sm text-slate-500">
+        Topics covered during the selected week
+      </p>
+
+
+      <div class="mt-5 grid gap-4 md:grid-cols-2">
+
+        <div
+          *ngFor="let item of weeklyClasses"
+          class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+
+          <p class="text-xs font-semibold text-blue-600">
+            {{ item.date | date:'dd MMM yyyy' }}
+          </p>
+
+          <h3 class="mt-1 font-bold text-slate-800">
+            {{ item.topic }}
+          </h3>
+
+          <p class="mt-1 text-sm text-slate-500">
+            {{ item.subject }}
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <p
+        *ngIf="weeklyClasses.length === 0"
+        class="mt-5 rounded-xl bg-slate-50 p-5 text-center text-slate-500">
+
+        No classes found for this week.
+
+      </p>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- Weekly Tests -->
+    <!-- ========================================== -->
+
+    <div
+      class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <h2 class="text-xl font-bold text-slate-800">
+        📝 Weekly Test Performance
+      </h2>
+
+      <div class="mt-5 space-y-4">
+
+        <div
+          *ngFor="let test of weeklyTests"
+          class="rounded-xl border border-slate-100 p-5">
+
+          <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+
+            <div>
+
+              <h3 class="font-bold text-slate-800">
+                {{ test.title }}
+              </h3>
+
+              <p class="mt-1 text-sm text-slate-500">
+                {{ test.testDate | date:'dd MMM yyyy' }}
+              </p>
+
+            </div>
+
+
+            <div class="text-left md:text-right">
+
+              <p class="text-2xl font-bold text-blue-600">
+
+                {{ test.obtainedMarks }}
+                /
+                {{ test.totalMarks }}
+
+              </p>
+
+              <p class="text-sm font-semibold text-slate-500">
+
+                {{ getTestPercentage(test) }}%
+
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <p
+            *ngIf="test.remarks"
+            class="mt-4 rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+
+            {{ test.remarks }}
+
+          </p>
+
+        </div>
+
+
+        <p
+          *ngIf="weeklyTests.length === 0"
+          class="rounded-xl bg-slate-50 p-5 text-center text-slate-500">
+
+          No weekly tests conducted.
+
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- Fees -->
+    <!-- ========================================== -->
+
+    <div
+      class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <h2 class="text-xl font-bold text-slate-800">
+        💰 Fee Status
+      </h2>
+
+
+      <div
+        *ngIf="fee"
+        class="mt-5 grid gap-4 md:grid-cols-3">
+
+        <div class="rounded-xl bg-slate-50 p-4">
+
+          <p class="text-sm text-slate-500">
+            Total Fees
+          </p>
+
+          <p class="mt-1 text-2xl font-bold text-slate-800">
+            ₹{{ fee.totalFees }}
+          </p>
+
+        </div>
+
+
+        <div class="rounded-xl bg-green-50 p-4">
+
+          <p class="text-sm text-green-700">
+            Paid
+          </p>
+
+          <p class="mt-1 text-2xl font-bold text-green-700">
+            ₹{{ fee.paidAmount }}
+          </p>
+
+        </div>
+
+
+        <div class="rounded-xl bg-orange-50 p-4">
+
+          <p class="text-sm text-orange-700">
+            Remaining
+          </p>
+
+          <p class="mt-1 text-2xl font-bold text-orange-700">
+            ₹{{ fee.remainingAmount }}
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        *ngIf="fee"
+        class="mt-5 rounded-xl border border-slate-100 p-4">
+
+        <span class="text-sm text-slate-500">
+          Status
+        </span>
+
+        <span
+          class="ml-3 rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
+
+          {{ fee.status }}
+
+        </span>
+
+      </div>
+
+
+      <p
+        *ngIf="!fee"
+        class="mt-5 rounded-xl bg-slate-50 p-5 text-center text-slate-500">
+
+        No fee record found.
+
+      </p>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- Teacher Observation -->
+    <!-- ========================================== -->
+
+    <div
+      class="rounded-2xl bg-white p-6 shadow-sm">
+
+      <div>
+
+        <h2 class="text-xl font-bold text-slate-800">
+          🧑‍🏫 Teacher's Observation
+        </h2>
+
+        <p class="mt-1 text-sm text-slate-500">
+          Add feedback and areas the student needs to improve.
+        </p>
+
+      </div>
+
+
+      <textarea
+        [(ngModel)]="teacherNotes"
+        rows="6"
+        placeholder="Example: Hritvi needs more practice in Number System. Logical Reasoning was slightly difficult this week..."
+        class="mt-5 w-full resize-none rounded-xl border border-slate-200 p-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+      </textarea>
+
+
+      <!-- Overall Progress -->
+
+      <div class="mt-5">
+
+        <label class="mb-2 block text-sm font-semibold text-slate-700">
+          Overall Progress
+        </label>
+
+        <select
+          [(ngModel)]="overallProgress"
+          class="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500">
+
+          <option value="Excellent">
+            Excellent
+          </option>
+
+          <option value="Good">
+            Good
+          </option>
+
+          <option value="Needs Improvement">
+            Needs Improvement
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <button
+        (click)="saveReport()"
+        class="mt-5 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700">
+
+        💾 Save Weekly Report
+
+      </button>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- PDF Placeholder -->
+    <!-- ========================================== -->
+
+    <div
+      class="flex flex-col justify-between gap-4 rounded-2xl border border-blue-100 bg-blue-50 p-6 md:flex-row md:items-center">
+
+      <div>
+
+        <h2 class="font-bold text-slate-800">
+          📄 Parent Report
+        </h2>
+
+        <p class="mt-1 text-sm text-slate-600">
+          Generate a professional PDF report for the student's parents.
+        </p>
+
+      </div>
+
+
+      <button
+        disabled
+        class="cursor-not-allowed rounded-xl bg-slate-400 px-6 py-3 font-semibold text-white">
+
+        📄 Generate PDF
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
